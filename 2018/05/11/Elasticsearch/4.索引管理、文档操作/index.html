@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>【Elasticsearch】4.索引管理、文档操作 | ShaiB</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Elasticsearch">
+    <meta name="description" content="索引管理 可以使用 Kibana 的 Dev Tools 执行命令 可以根据光标单独执行某一条命令                                                                                                              常用索引指令 查看集群健康状况：GET /_cat/health?v 查询集群中有">
+<meta name="keywords" content="Elasticsearch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Elasticsearch】4.索引管理、文档操作">
+<meta property="og:url" content="http://blog.shaib.cn/2018/05/11/Elasticsearch/4.索引管理、文档操作/index.html">
+<meta property="og:site_name" content="ShaiB">
+<meta property="og:description" content="索引管理 可以使用 Kibana 的 Dev Tools 执行命令 可以根据光标单独执行某一条命令                                                                                                              常用索引指令 查看集群健康状况：GET /_cat/health?v 查询集群中有">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.imgur.com/TzTvhpO.png">
+<meta property="og:updated_time" content="2018-05-11T09:01:29.711Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【Elasticsearch】4.索引管理、文档操作">
+<meta name="twitter:description" content="索引管理 可以使用 Kibana 的 Dev Tools 执行命令 可以根据光标单独执行某一条命令                                                                                                              常用索引指令 查看集群健康状况：GET /_cat/health?v 查询集群中有">
+<meta name="twitter:image" content="https://i.imgur.com/TzTvhpO.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="ShaiB" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu"  >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">ligohan</h5>
+          <a href="mailto:www.lijun07@qq.com" title="www.lijun07@qq.com" class="mail">www.lijun07@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ligohan" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://weibo.com/hanakawaii" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">【Elasticsearch】4.索引管理、文档操作</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">【Elasticsearch】4.索引管理、文档操作</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-05-11T08:54:40.701Z" itemprop="datePublished" class="page-time">
+  2018-05-11
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#索引管理"><span class="post-toc-number">1.</span> <span class="post-toc-text">索引管理</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#添加索引（自定义设置）"><span class="post-toc-number">1.0.0.1.</span> <span class="post-toc-text">添加索引（自定义设置）</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#添加索引，同时设置-mapping"><span class="post-toc-number">1.0.0.2.</span> <span class="post-toc-text">添加索引，同时设置 mapping</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#先添加索引再设置-mapping"><span class="post-toc-number">1.0.0.3.</span> <span class="post-toc-text">先添加索引再设置 mapping</span></a></li></ol></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#文档操作"><span class="post-toc-number">2.</span> <span class="post-toc-text">文档操作</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#添加文档"><span class="post-toc-number">2.0.1.</span> <span class="post-toc-text">添加文档</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#查询文档"><span class="post-toc-number">2.0.2.</span> <span class="post-toc-text">查询文档</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#普通分页查询："><span class="post-toc-number">2.0.2.1.</span> <span class="post-toc-text">普通分页查询：</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#深度分页：详见-8-深度分页"><span class="post-toc-number">2.0.2.2.</span> <span class="post-toc-text">深度分页：详见 8.深度分页</span></a></li></ol></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考资料"><span class="post-toc-number">3.</span> <span class="post-toc-text">参考资料</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-Elasticsearch/4.索引管理、文档操作"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">【Elasticsearch】4.索引管理、文档操作</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-05-11 16:54:40" datetime="2018-05-11T08:54:40.701Z"  itemprop="datePublished">2018-05-11</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="索引管理"><a href="#索引管理" class="headerlink" title="索引管理"></a>索引管理</h2><ul>
+<li>可以使用 Kibana 的 Dev Tools 执行命令</li>
+<li>可以根据光标单独执行某一条命令<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://i.imgur.com/TzTvhpO.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+</li>
+</ul>
+<ul>
+<li>常用索引指令<ul>
+<li>查看集群健康状况：GET /_cat/health?v</li>
+<li>查询集群中有哪些索引：GET /_cat/indices?v</li>
+</ul>
+</li>
+<li>简单的索引操作：<ul>
+<li>添加索引（默认配置）：PUT /user_index</li>
+<li>删除单个索引：DELETE /user_index</li>
+<li>删除多个索引：DELETE /user1_index,user2_index</li>
+<li>根据通配符删除多个索引：DELETE /new_*</li>
+<li>删除所有索引：DELETE /_all</li>
+<li>查询索引配置信息：GET /user_index/_settings</li>
+<li>查询多个索引配置信息：GET /user1_index,user2_index/_settings</li>
+<li>查询所有索引配置信息：GET /_all/_settings</li>
+</ul>
+</li>
+</ul>
+<h5 id="添加索引（自定义设置）"><a href="#添加索引（自定义设置）" class="headerlink" title="添加索引（自定义设置）"></a>添加索引（自定义设置）</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">PUT /user_index</span><br><span class="line">&#123;</span><br><span class="line">  &quot;settings&quot;: &#123;</span><br><span class="line">    &quot;index&quot;: &#123;</span><br><span class="line">      &quot;number_of_shards&quot;: 5,  ## 分片数量</span><br><span class="line">      &quot;number_of_replicas&quot;: 1  ## 每个分片需要备份的数量</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>修改分片备份数量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PUT /user_index/_settings</span><br><span class="line">&#123;</span><br><span class="line">    &quot;number_of_replicas&quot;: 0</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>当出现有场外分片的情况下，需要对分片进行重分配</p>
+<ul>
+<li>分片重分配默认是开启的，但是可能因为某些原因关闭了重分配但是忘记开启了<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PUT /_cluster/settings</span><br><span class="line">&#123; </span><br><span class="line">    &quot;transient&quot;:&#123;</span><br><span class="line">        &quot;cluster.routing.allocation.enable&quot; : &quot;all&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="添加索引，同时设置-mapping"><a href="#添加索引，同时设置-mapping" class="headerlink" title="添加索引，同时设置 mapping"></a>添加索引，同时设置 mapping</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">PUT /user_index</span><br><span class="line">&#123;</span><br><span class="line">  &quot;settings&quot;: &#123;</span><br><span class="line">    &quot;refresh_interval&quot;: &quot;5s&quot;,  ## 索引刷新频率</span><br><span class="line">    &quot;number_of_shards&quot;: 5,</span><br><span class="line">    &quot;number_of_replicas&quot;: 1</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;mappings&quot;: &#123;</span><br><span class="line">    &quot;student&quot;: &#123;  ## 类型名称</span><br><span class="line">      &quot;properties&quot;: &#123;</span><br><span class="line">        &quot;student_name&quot;: &#123;  ## 字段名称</span><br><span class="line">          &quot;type&quot;: &quot;text&quot;,  ## 字段类型</span><br><span class="line">          &quot;analyzer&quot;: &quot;ik_max_word&quot;,  ## 设置分词器</span><br><span class="line">          &quot;search_analyzer&quot;: &quot;ik_max_word&quot;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>mapping 可以理解为数据库中的表结构，比如设置字段的类型、默认值、是否为空等参数</li>
+</ul>
+<h5 id="先添加索引再设置-mapping"><a href="#先添加索引再设置-mapping" class="headerlink" title="先添加索引再设置 mapping"></a>先添加索引再设置 mapping</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">PUT /user_index</span><br><span class="line"></span><br><span class="line">POST /user_index/student/_mapping</span><br><span class="line">&#123;</span><br><span class="line">    &quot;properties&quot;: &#123;</span><br><span class="line">        &quot;student_name&quot;: &#123;</span><br><span class="line">            &quot;type&quot;: &quot;text&quot;,</span><br><span class="line">            &quot;analyzer&quot;: &quot;ik_max_word&quot;,</span><br><span class="line">            &quot;search_analyzer&quot;: &quot;ik_max_word&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="文档操作"><a href="#文档操作" class="headerlink" title="文档操作"></a>文档操作</h2><h4 id="添加文档"><a href="#添加文档" class="headerlink" title="添加文档"></a>添加文档</h4><ul>
+<li><p>PUT 方式添加文档（指定ID）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">PUT /user_index/student/1</span><br><span class="line">&#123;</span><br><span class="line">    &quot;student_name&quot; : &quot;jun&quot;,</span><br><span class="line">    &quot;student_id&quot; : &quot;1&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>POST 方式添加文档，不指向 ID 会自动生成一个 20 位的字符串 ID。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">POST /user_index/student</span><br><span class="line">&#123;</span><br><span class="line">    &quot;student_name&quot; : &quot;jun&quot;,</span><br><span class="line">    &quot;student_id&quot; : &quot;1&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="查询文档"><a href="#查询文档" class="headerlink" title="查询文档"></a>查询文档</h4><ul>
+<li><p>通过 ID 查询（默认返回所有元数据）：<figure class="highlight plain"><figcaption><span>/user_index/student/3```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- 通过 ID 查询（返回指定元数据）：```GET /user_index/student/1?_source=student_name,student_id</span><br></pre></td></tr></table></figure></p>
+</li>
+<li><p>查询指定索引的所有数据：<figure class="highlight plain"><figcaption><span>/user_index/student/_search```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- 设置查询超时：```GET /user_index/student/_search?timeout=5s</span><br></pre></td></tr></table></figure></p>
+</li>
+<li><p>查询多个索引：<figure class="highlight plain"><figcaption><span>/user_index/student/_search```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- 查询多个索引、多个类型：```GET /user1_index,user2_index/student,teacher/_search</span><br></pre></td></tr></table></figure></p>
+</li>
+<li><p>查询所有索引、多个类型：<figure class="highlight plain"><figcaption><span>/_all/student,teacher/_search```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- 通过通配符模糊查询多个索引：```GET /student_*/_search</span><br></pre></td></tr></table></figure></p>
+</li>
+<li><p>通过字段查询，并按学号倒序返回：<figure class="highlight plain"><figcaption><span>/user_index/student/_search?q</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- 通过字段查询（使用减号代表不等于），并价格倒序：```GET /user_index/student/_search?q=-student_name:jun&amp;sort=student_id:desc</span><br></pre></td></tr></table></figure></p>
+</li>
+</ul>
+<h5 id="普通分页查询："><a href="#普通分页查询：" class="headerlink" title="普通分页查询："></a>普通分页查询：</h5><ul>
+<li><p>查询所有结果：<figure class="highlight plain"><figcaption><span>/user_index/student/_search```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- 普通分页（查询第 1 页，每页 2 条数据）：```GET /user_index/student/_search?from=0&amp;size=2</span><br></pre></td></tr></table></figure></p>
+</li>
+<li><p><strong>from 是指从第几条数据开始</strong></p>
+</li>
+</ul>
+<h5 id="深度分页：详见-8-深度分页"><a href="#深度分页：详见-8-深度分页" class="headerlink" title="深度分页：详见 8.深度分页"></a>深度分页：详见 <a href="8.深度分页.md">8.深度分页</a></h5><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/index-management.html" target="_blank" rel="noopener">官方文档：索引管理</a></li>
+<li><a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/index-doc.html" target="_blank" rel="noopener">官方文档：数据输入和输出</a></li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最終更新：<time datetime="2018-05-11T09:01:29.711Z" itemprop="dateUpdated">2018-05-11 17:01:29</time>
+</span><br>
+
+
+        
+        微博：<a href="https://weibo.com/hanakawaii">@俊俊俊俊__</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://blog.shaib.cn">
+            <img src="/img/avatar.jpg" alt="ligohan">
+            ligohan
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Elasticsearch/">Elasticsearch</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.shaib.cn/2018/05/11/Elasticsearch/4.索引管理、文档操作/&title=《【Elasticsearch】4.索引管理、文档操作》 — ShaiB&pic=http://blog.shaib.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.shaib.cn/2018/05/11/Elasticsearch/4.索引管理、文档操作/&title=《【Elasticsearch】4.索引管理、文档操作》 — ShaiB&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.shaib.cn/2018/05/11/Elasticsearch/4.索引管理、文档操作/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《【Elasticsearch】4.索引管理、文档操作》 — ShaiB&url=http://blog.shaib.cn/2018/05/11/Elasticsearch/4.索引管理、文档操作/&via=http://blog.shaib.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.shaib.cn/2018/05/11/Elasticsearch/4.索引管理、文档操作/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/05/11/Elasticsearch/5.批量操作/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">【Elasticsearch】5.批量操作</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/05/11/Elasticsearch/3.2logstash安装配置和使用/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">【Elasticsearch】3.2 Kibana 安装配置和使用</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'ligohan',
+            repo: 'ligohan.github.io',
+            oauth: {
+                client_id: 'fa0038813388307a4f56',
+                client_secret: 'fd095a020d30235d15599824df9785d150d6fcd0',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>このブログの内容物は<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>ligohan &copy; 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.shaib.cn/2018/05/11/Elasticsearch/4.索引管理、文档操作/&title=《【Elasticsearch】4.索引管理、文档操作》 — ShaiB&pic=http://blog.shaib.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.shaib.cn/2018/05/11/Elasticsearch/4.索引管理、文档操作/&title=《【Elasticsearch】4.索引管理、文档操作》 — ShaiB&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.shaib.cn/2018/05/11/Elasticsearch/4.索引管理、文档操作/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《【Elasticsearch】4.索引管理、文档操作》 — ShaiB&url=http://blog.shaib.cn/2018/05/11/Elasticsearch/4.索引管理、文档操作/&via=http://blog.shaib.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.shaib.cn/2018/05/11/Elasticsearch/4.索引管理、文档操作/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACu0lEQVR42u3ay27jMBAEQP//T3svOSywK7t7Rox9KJ2CWA+WDJDjHj4e8fH85/j7/1fnJ/e5OvPqqseJAw8PD2899CtGPuj20/ZVJmPGw8PDO817Pbm/vvVs8Xh952QM0YKEh4eH9wW8ZKA5IymvV6U8Hh4e3tfwnvHRvpS8pMbDw8P7LC8JI2YLxus4I381x7MWPDw8vPlc/cgXiU/9faS/h4eHh7fuqufNsFkBnZTss3H+XIuHh4d3gNdGtPn0PRvcXa8PDw8P7zRvU3+2WwHazQf75QcPDw/vHG9f8s6K482ryTcu4OHh4d3Lyx/Ztu1ni8qsyC6KaTw8PLw1L0HOStgksGg3K9zWDMPDw8Nb8GbboWaTeBvFbgJiPDw8vHO8vPx9PX3PAo42Gh4uFXh4eHg38ZJCtm2GzYLX2advynE8PDy8A7zZLJo8PolW2zvMYgs8PDy8e3mbiX4/xP3GrDcjxMPDwzvGyzc85Vup2tA2714VT8HDw8M7xtuXy/nUnywz7fmXXwkeHh7eAV6LaRtds4B4EwFffod4eHh4N/HySX8TNxRZ8iKG+M9VeHh4eAd49c/7sm3WNtiSpaheuvDw8PBu5bXl7L0lch4WD8/Ew8PDO8b7wINH26rqYh0PDw/vAK8tl/Moob3Dvg1W/yTAw8PDW5yfTMFtMT0LLJKXW2/ewsPDwzvGS+LRWWAxa33lS8gbBR4eHt5hXvv4tkF1Q6XfLhJ4eHh4t/Ke5bEJC2aLTR7m4uHh4f0Or51qZ7eebThoN2ndsJLg4eHhjXro+a3bTQCbtla7gQAPDw/vd3h5gJu8gmSI+VXDlAUPDw/vy3hFC2rRPNuMBw8PD+97eMmZSXiRlMU3NMzw8PDwjvHapte+BM9jiPzriTZd4eHh4a15sx/5bdSbbxHYRxJ4eHh4x3h/AI1ic6g5sD9PAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = 'ShaiB';
+            clearTimeout(titleTime);
+        } else {
+            document.title = 'ShaiB';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

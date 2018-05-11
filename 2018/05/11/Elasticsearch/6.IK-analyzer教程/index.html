@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>【Elasticsearch】6.IK-analyzer 教程 | ShaiB</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Elasticsearch,IK-analyzer">
+    <meta name="description" content="介绍 IKAnalyzer是一个开源的，基于java语言开发的轻量级的中文分词工具包。 IKAnalyzer3.0特性: 采用了特有的“正向迭代最细粒度切分算法“，支持细粒度和最大词长两种切分模式；具有83万字/秒（1600KB/S）的高速处理能力。 采用了多子处理器分析模式，支持：英文字母、数字、中文词汇等分词处理，兼容韩文、日文字符 优化的词典存储，更小的内存占用。支持用户词典扩展定义 针对L">
+<meta name="keywords" content="Elasticsearch,IK-analyzer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Elasticsearch】6.IK-analyzer 教程">
+<meta property="og:url" content="http://blog.shaib.cn/2018/05/11/Elasticsearch/6.IK-analyzer教程/index.html">
+<meta property="og:site_name" content="ShaiB">
+<meta property="og:description" content="介绍 IKAnalyzer是一个开源的，基于java语言开发的轻量级的中文分词工具包。 IKAnalyzer3.0特性: 采用了特有的“正向迭代最细粒度切分算法“，支持细粒度和最大词长两种切分模式；具有83万字/秒（1600KB/S）的高速处理能力。 采用了多子处理器分析模式，支持：英文字母、数字、中文词汇等分词处理，兼容韩文、日文字符 优化的词典存储，更小的内存占用。支持用户词典扩展定义 针对L">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-05-11T09:02:09.575Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【Elasticsearch】6.IK-analyzer 教程">
+<meta name="twitter:description" content="介绍 IKAnalyzer是一个开源的，基于java语言开发的轻量级的中文分词工具包。 IKAnalyzer3.0特性: 采用了特有的“正向迭代最细粒度切分算法“，支持细粒度和最大词长两种切分模式；具有83万字/秒（1600KB/S）的高速处理能力。 采用了多子处理器分析模式，支持：英文字母、数字、中文词汇等分词处理，兼容韩文、日文字符 优化的词典存储，更小的内存占用。支持用户词典扩展定义 针对L">
+    
+        <link rel="alternate" type="application/atom+xml" title="ShaiB" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu"  >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">ligohan</h5>
+          <a href="mailto:www.lijun07@qq.com" title="www.lijun07@qq.com" class="mail">www.lijun07@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ligohan" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://weibo.com/hanakawaii" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">【Elasticsearch】6.IK-analyzer 教程</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">【Elasticsearch】6.IK-analyzer 教程</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-05-11T08:54:40.711Z" itemprop="datePublished" class="page-time">
+  2018-05-11
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#介绍"><span class="post-toc-number">1.</span> <span class="post-toc-text">介绍</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#安装"><span class="post-toc-number">2.</span> <span class="post-toc-text">安装</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#解压包方式"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">解压包方式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#联网方式"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">联网方式</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#使用"><span class="post-toc-number">3.</span> <span class="post-toc-text">使用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#配置文件"><span class="post-toc-number">4.</span> <span class="post-toc-text">配置文件</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#字典配置"><span class="post-toc-number">5.</span> <span class="post-toc-text">字典配置</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#热更新-IK-分词"><span class="post-toc-number">6.</span> <span class="post-toc-text">热更新 IK 分词</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#介绍-1"><span class="post-toc-number">6.1.</span> <span class="post-toc-text">介绍</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#使用-1"><span class="post-toc-number">6.2.</span> <span class="post-toc-text">使用</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#PHP方式"><span class="post-toc-number">6.3.</span> <span class="post-toc-text">PHP方式</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#异常"><span class="post-toc-number">7.</span> <span class="post-toc-text">异常</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#MYSQL方式"><span class="post-toc-number">7.1.</span> <span class="post-toc-text">MYSQL方式</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-Elasticsearch/6.IK-analyzer教程"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">【Elasticsearch】6.IK-analyzer 教程</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-05-11 16:54:40" datetime="2018-05-11T08:54:40.711Z"  itemprop="datePublished">2018-05-11</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><ul>
+<li>IKAnalyzer是一个开源的，基于java语言开发的轻量级的中文分词工具包。</li>
+<li>IKAnalyzer3.0特性:<ul>
+<li>采用了特有的“正向迭代最细粒度切分算法“，支持细粒度和最大词长两种切分模式；具有83万字/秒（1600KB/S）的高速处理能力。</li>
+<li>采用了多子处理器分析模式，支持：英文字母、数字、中文词汇等分词处理，兼容韩文、日文字符</li>
+<li>优化的词典存储，更小的内存占用。支持用户词典扩展定义</li>
+<li>针对Lucene全文检索优化的查询分析器IKQueryParser(作者吐血推荐)；引入简单搜索表达式，采用歧义分析算法优化查询关键字的搜索排列组合，能极大的提高Lucene检索的命中率。</li>
+</ul>
+</li>
+</ul>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="解压包方式"><a href="#解压包方式" class="headerlink" title="解压包方式"></a>解压包方式</h3><ul>
+<li><a href="https://github.com/medcl/elasticsearch-analysis-ik/releases" target="_blank" rel="noopener">官网下载地址</a></li>
+<li><p>进入 Elasticsearch 插件目录：<figure class="highlight plain"><figcaption><span>/usr/workspace/elasticsearch-6.2.3/plugins```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- 上传压缩包并解压：```unzip elasticsearch-analysis-ik-6.2.3.zip</span><br></pre></td></tr></table></figure></p>
+</li>
+<li><p>重启Elasticsearch</p>
+</li>
+</ul>
+<h3 id="联网方式"><a href="#联网方式" class="headerlink" title="联网方式"></a>联网方式</h3><ul>
+<li><p>进入节点目录，输入命令：</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v6.2.3/elasticsearch-analysis-ik-6.2.3.zip</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重启Elasticsearch</p>
+</li>
+</ul>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><ol>
+<li><p>创建一个新索引</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PUT /ik</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>添加一个Mapping，并设定其使用【IK】分词器，<strong>必须在往索引中添加数据前完成</strong></p>
+<blockquote>
+<p> Mapping，就是对索引库中索引的字段名称及其数据类型进行定义，类似于mysql中的表结构信息。不过es的mapping比数据库灵活很多，它可以动态识别字段。一般不需要指定mapping都可以，因为es会自动根据数据格式识别它的类型，如果你需要对某些字段添加特殊属性（如：定义使用其它分词器、是否分词、是否存储等），就必须手动添加mapping。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">POST /ik/message/_mapping</span><br><span class="line">&#123;</span><br><span class="line">    &quot;properties&quot;: &#123;</span><br><span class="line">        &quot;fieldname&quot;: &#123;</span><br><span class="line">            &quot;type&quot;: &quot;text&quot;,</span><br><span class="line">            &quot;analyzer&quot;: &quot;ik_max_word&quot;,</span><br><span class="line">            &quot;search_analyzer&quot;: &quot;ik_max_word&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+</ol>
+<blockquote>
+<p> ik_max_word: 会将文本做最细粒度的拆分，比如会将“中华人民共和国国歌”拆分为“中华人民共和国,中华人民,中华,华人,人民共和国,人民,人,民,共和国,共和,和,国国,国歌”，会穷尽各种可能的组合；<br> ik_smart: 会做最粗粒度的拆分，比如会将“中华人民共和国国歌”拆分为“中华人民共和国,国歌”。</p>
+</blockquote>
+<ol start="3">
+<li><p>添加一些文档</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">POST /ik/message/1 </span><br><span class="line">&#123;</span><br><span class="line">    &quot;content&quot;:&quot;这是一条IK Analyzer测试文档&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>带高亮查询</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST http://localhost:9200/indexname/typename/_search -H &apos;Content-Type:application/json&apos; -d&apos;</span><br><span class="line">&#123;</span><br><span class="line">    &quot;query&quot; : &#123; &quot;match&quot; : &#123; &quot;content&quot; : &quot;这是&quot; &#125;&#125;,</span><br><span class="line">    &quot;highlight&quot; : &#123;</span><br><span class="line">        &quot;pre_tags&quot; : [&quot;&lt;tag1&gt;&quot;, &quot;&lt;tag2&gt;&quot;],</span><br><span class="line">        &quot;post_tags&quot; : [&quot;&lt;/tag1&gt;&quot;, &quot;&lt;/tag2&gt;&quot;],</span><br><span class="line">        &quot;fields&quot; : &#123;</span><br><span class="line">            &quot;content&quot; : &#123;&#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ul>
+<li>返回内容<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;took&quot;: 17,</span><br><span class="line">  &quot;timed_out&quot;: false,</span><br><span class="line">  &quot;_shards&quot;: &#123;</span><br><span class="line">    &quot;total&quot;: 5,</span><br><span class="line">    &quot;successful&quot;: 5,</span><br><span class="line">    &quot;skipped&quot;: 0,</span><br><span class="line">    &quot;failed&quot;: 0</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;hits&quot;: &#123;</span><br><span class="line">    &quot;total&quot;: 1,</span><br><span class="line">    &quot;max_score&quot;: 0.2876821,</span><br><span class="line">    &quot;hits&quot;: [</span><br><span class="line">      &#123;</span><br><span class="line">        &quot;_index&quot;: &quot;indexname&quot;,</span><br><span class="line">        &quot;_type&quot;: &quot;typename&quot;,</span><br><span class="line">        &quot;_id&quot;: &quot;1&quot;,</span><br><span class="line">        &quot;_score&quot;: 0.2876821,</span><br><span class="line">        &quot;_source&quot;: &#123;</span><br><span class="line">          &quot;content&quot;: &quot;这是一条IK Analyzer测试文档&quot;,</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;highlight&quot;: &#123;</span><br><span class="line">          &quot;content&quot;: [</span><br><span class="line">            &quot;&lt;tag1&gt;这是&lt;/tag1&gt;一条IK Analyzer测试文档&quot;</span><br><span class="line">          ]</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><ul>
+<li>IK配置文件目录位于{conf}/analysis-ik/config 或 {plugins}/elasticsearch-analysis-ik-6.2.3/config，其中：<ul>
+<li>IKAnalyzer.cfg.xml：用来配置自定义词库</li>
+<li>main.dic：ik原生内置的中文词库，总共有27万多条，只要是这些单词，都会被分在一起</li>
+<li>quantifier.dic：放了一些单位相关的词</li>
+<li>suffix.dic：放了一些后缀</li>
+<li>surname.dic：中国的姓氏</li>
+<li>stopword.dic：英文停用词</li>
+</ul>
+</li>
+</ul>
+<h2 id="字典配置"><a href="#字典配置" class="headerlink" title="字典配置"></a>字典配置</h2><ul>
+<li>IK配置文件位于{conf}/analysis-ik/config/IKAnalyzer.cfg.xml 或 {plugins}/elasticsearch-analysis-ik-6.2.3/config/IKAnalyzer.cfg.xml</li>
+<li><p>内容如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE properties SYSTEM &quot;http://java.sun.com/dtd/properties.dtd&quot;&gt;</span><br><span class="line">&lt;properties&gt;</span><br><span class="line">	&lt;comment&gt;IK Analyzer 扩展配置&lt;/comment&gt;</span><br><span class="line">	&lt;!--用户可以在这里配置自己的扩展字典 --&gt;</span><br><span class="line">	&lt;entry key=&quot;ext_dict&quot;&gt;custom/mydict.dic;custom/single_word_low_freq.dic&lt;/entry&gt;</span><br><span class="line">	 &lt;!--用户可以在这里配置自己的扩展停止词字典--&gt;</span><br><span class="line">	&lt;entry key=&quot;ext_stopwords&quot;&gt;custom/ext_stopword.dic&lt;/entry&gt;</span><br><span class="line"> 	&lt;!--用户可以在这里配置远程扩展字典 --&gt;</span><br><span class="line">	&lt;entry key=&quot;remote_ext_dict&quot;&gt;location&lt;/entry&gt;</span><br><span class="line"> 	&lt;!--用户可以在这里配置远程扩展停用词字典--&gt;</span><br><span class="line">	&lt;entry key=&quot;remote_ext_stopwords&quot;&gt;http://xxx.com/xxx.dic&lt;/entry&gt;</span><br><span class="line">&lt;/properties&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><a href="https://baike.baidu.com/item/%E5%81%9C%E7%94%A8%E8%AF%8D/4531676?fr=aladdin" target="_blank" rel="noopener">停用词</a></p>
+<ul>
+<li>停用词是指在信息检索中，为节省存储空间和提高搜索效率，在处理自然语言数据（或文本）之前或之后会自动过滤掉某些字或词</li>
+<li>通常意义上，停用词大致分为两类。<ul>
+<li>一类是人类语言中包含的功能词，这些功能词极其普遍，与其他词相比，功能词没有什么实际含义，比如’the’、’is’、’at’、’which’、’on’等。</li>
+<li>另一类词包括词汇词，比如’want’等，这些词应用十分广泛，但是对这样的词搜索引擎无法保证能够给出真正相关的搜索结果，难以帮助缩小搜索范围，同时还会降低搜索的效率，所以通常会把这些词从问题中移去，从而提高搜索性能。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="热更新-IK-分词"><a href="#热更新-IK-分词" class="headerlink" title="热更新 IK 分词"></a>热更新 IK 分词</h2><h3 id="介绍-1"><a href="#介绍-1" class="headerlink" title="介绍"></a>介绍</h3><ul>
+<li><p>通过修改上述配置文件的以下两个标签可实现热更新 IK 分词</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--用户可以在这里配置远程扩展字典 --&gt;</span><br><span class="line">&lt;entry key=&quot;remote_ext_dict&quot;&gt;location&lt;/entry&gt;</span><br><span class="line">&lt;!--用户可以在这里配置远程扩展停止词字典--&gt;</span><br><span class="line">&lt;entry key=&quot;remote_ext_stopwords&quot;&gt;location&lt;/entry&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>其中 location 是指一个 url，比如 <a href="http://yoursite.com/getCustomDict，该请求只需满足以下两点即可完成分词热更新。" target="_blank" rel="noopener">http://yoursite.com/getCustomDict，该请求只需满足以下两点即可完成分词热更新。</a></p>
+<ol>
+<li>该 http 请求需要返回两个头部(header)，一个是 Last-Modified，一个是 ETag，这两者都是字符串类型，只要有一个发生变化，该插件就会去抓取新的分词进而更新词库。</li>
+<li>该 http 请求返回的内容格式是一行一个分词，换行符用 \n 即可。</li>
+</ol>
+</li>
+<li>满足上面两点要求就可以实现热更新分词了，不需要重启 ES 实例。<blockquote>
+<p> 可以将需自动更新的热词放在一个 UTF-8 编码的 .txt 文件里，放在 nginx 或其他简易 http server 下，当 .txt 文件修改时，http server 会在客户端请求该文件时自动返回相应的 Last-Modified 和 ETag。可以另外做一个工具来从业务系统提取相关词汇，并更新这个 .txt 文件。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="使用-1"><a href="#使用-1" class="headerlink" title="使用"></a>使用</h3><ul>
+<li><p>IK 分词测试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">GET _analyze</span><br><span class="line">&#123;</span><br><span class="line">	&quot;text&quot;: &quot;抖音&quot;,</span><br><span class="line">	&quot;analyzer&quot;: &quot;ik_max_word&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>返回数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;tokens&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;token&quot;: &quot;抖&quot;,</span><br><span class="line">      &quot;start_offset&quot;: 0,</span><br><span class="line">      &quot;end_offset&quot;: 1,</span><br><span class="line">      &quot;type&quot;: &quot;CN_CHAR&quot;,</span><br><span class="line">      &quot;position&quot;: 0</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;token&quot;: &quot;音&quot;,</span><br><span class="line">      &quot;start_offset&quot;: 1,</span><br><span class="line">      &quot;end_offset&quot;: 2,</span><br><span class="line">      &quot;type&quot;: &quot;CN_CHAR&quot;,</span><br><span class="line">      &quot;position&quot;: 1</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>可见 IK 的主词典中没有“抖音”这个词，所以被拆分了</p>
+</li>
+<li>修改 IK 的配置文件 IKAnalyzer.cfg.xml <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE properties SYSTEM &quot;http://java.sun.com/dtd/properties.dtd&quot;&gt;  </span><br><span class="line">&lt;properties&gt;  </span><br><span class="line">    &lt;comment&gt;IK Analyzer 扩展配置&lt;/comment&gt;</span><br><span class="line">    &lt;!--用户可以在这里配置自己的扩展字典 --&gt;    </span><br><span class="line">    &lt;entry key=&quot;ext_dict&quot;&gt;custom/mydict.dic;custom/single_word_low_freq.dic&lt;/entry&gt;     </span><br><span class="line">     &lt;!--用户可以在这里配置自己的扩展停止词字典--&gt;</span><br><span class="line">    &lt;entry key=&quot;ext_stopwords&quot;&gt;custom/ext_stopword.dic&lt;/entry&gt;</span><br><span class="line">    &lt;!--用户可以在这里配置远程扩展字典 --&gt; </span><br><span class="line">    &lt;entry key=&quot;remote_ext_dict&quot;&gt;http://192.168.75.128/MyIKCustomWords.php&lt;/entry&gt;</span><br><span class="line">    &lt;!--用户可以在这里配置远程扩展停止词字典--&gt;</span><br><span class="line">    &lt;!-- &lt;entry key=&quot;remote_ext_stopwords&quot;&gt;words_location&lt;/entry&gt; --&gt;</span><br><span class="line">&lt;/properties&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="PHP方式"><a href="#PHP方式" class="headerlink" title="PHP方式"></a>PHP方式</h3><ul>
+<li><p><a href="https://jingyan.baidu.com/article/a3f121e4b0dd75fc9052bbc6.html" target="_blank" rel="noopener">CentOS7.0 PHP环境搭建</a></p>
+</li>
+<li><p>在 PHP 应用目录加入MyIKCustomWords.php</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">echo </span><br><span class="line">&apos;抖音</span><br><span class="line">&apos;;</span><br><span class="line">header(&apos;Last-Modified: &apos;.gmdate(&apos;D, d M Y H:i:s&apos;, time()).&apos; GMT&apos;, true, 200);</span><br><span class="line">header(&apos;ETag: &quot;5816f349-19&quot;&apos;);</span><br><span class="line">echo $s;</span><br><span class="line">﻿?&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重新启动Elasticsearch</p>
+</li>
+<li><p>可见启动过程有以下输出</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[2018-04-13T13:42:45,349][INFO ][o.w.a.d.Monitor          ] 重新加载词典...</span><br><span class="line">[2018-04-13T13:42:45,349][INFO ][o.w.a.d.Monitor          ] try load config from /usr/workspace/elasticsearch-6.2.3/master/config/analysis-ik/IKAnalyzer.cfg.xml</span><br><span class="line">[2018-04-13T13:42:45,620][WARN ][o.w.a.d.Monitor          ] [Ext Loading] file not found: /usr/workspace/elasticsearch-6.2.3/master/config/analysis-ik/custom/mydict.dic</span><br><span class="line">[2018-04-13T13:42:45,621][WARN ][o.w.a.d.Monitor          ] [Ext Loading] file not found: /usr/workspace/elasticsearch-6.2.3/master/config/analysis-ik/custom/single_word_low_freq.dic</span><br><span class="line">[2018-04-13T13:42:45,621][INFO ][o.w.a.d.Monitor          ] [Dict Loading] http://192.168.75.128/MyIKCustomWords.php</span><br><span class="line">[2018-04-13T13:42:45,677][INFO ][o.w.a.d.Monitor          ] 抖音</span><br><span class="line">[2018-04-13T13:42:45,678][WARN ][o.w.a.d.Monitor          ] [Ext Loading] file not found: /usr/workspace/elasticsearch-6.2.3/master/config/analysis-ik/custom/ext_stopword.dic</span><br><span class="line">[2018-04-13T13:42:45,678][INFO ][o.w.a.d.Monitor          ] 重新加载词典完毕...</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>再次进行分词</p>
+</li>
+<li>返回数据  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;tokens&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;token&quot;: &quot;抖音&quot;,</span><br><span class="line">      &quot;start_offset&quot;: 0,</span><br><span class="line">      &quot;end_offset&quot;: 2,</span><br><span class="line">      &quot;type&quot;: &quot;CN_WORD&quot;,</span><br><span class="line">      &quot;position&quot;: 0</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h2><ol>
+<li>配置远程扩展词典后启动 Elasticsearch 出现异常　<figure class="highlight plain"><figcaption><span>access denied (java.net.SocketPermission 192.168.75.128:80 connect,resolve)```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&gt;  无法解析和连接到127.0.0.1的2005端口上，原因是在PerfectTime中设置了安全管理器＜System.setSecurityManager(new RMISecurityManager());＞，可是又没有设置访问的策略</span><br><span class="line"></span><br><span class="line">- 解决方法</span><br><span class="line">	- 打开文件 ../jdk*/jre/lib/security/java.policy</span><br><span class="line">	- 修改安全策略文件，在grant &#123;&#125; 大括号中加上</span><br><span class="line">		```permission java.net.SocketPermission &quot;localhost:2005&quot;,&quot;connect,resolve&quot;;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="MYSQL方式"><a href="#MYSQL方式" class="headerlink" title="MYSQL方式"></a>MYSQL方式</h3><p><a href="https://github.com/judasn/Elasticsearch-Tutorial-zh-CN/tree/master/elasticsearch-analysis-ik-5.2.0" target="_blank" rel="noopener">https://github.com/judasn/Elasticsearch-Tutorial-zh-CN/tree/master/elasticsearch-analysis-ik-5.2.0</a></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最終更新：<time datetime="2018-05-11T09:02:09.575Z" itemprop="dateUpdated">2018-05-11 17:02:09</time>
+</span><br>
+
+
+        
+        微博：<a href="https://weibo.com/hanakawaii">@俊俊俊俊__</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://blog.shaib.cn">
+            <img src="/img/avatar.jpg" alt="ligohan">
+            ligohan
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Elasticsearch/">Elasticsearch</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/IK-analyzer/">IK-analyzer</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.shaib.cn/2018/05/11/Elasticsearch/6.IK-analyzer教程/&title=《【Elasticsearch】6.IK-analyzer 教程》 — ShaiB&pic=http://blog.shaib.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.shaib.cn/2018/05/11/Elasticsearch/6.IK-analyzer教程/&title=《【Elasticsearch】6.IK-analyzer 教程》 — ShaiB&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.shaib.cn/2018/05/11/Elasticsearch/6.IK-analyzer教程/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《【Elasticsearch】6.IK-analyzer 教程》 — ShaiB&url=http://blog.shaib.cn/2018/05/11/Elasticsearch/6.IK-analyzer教程/&via=http://blog.shaib.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.shaib.cn/2018/05/11/Elasticsearch/6.IK-analyzer教程/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/05/11/Elasticsearch/7.0全文检索/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">【Elasticsearch】7.0 全文检索</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/05/11/Elasticsearch/5.批量操作/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">【Elasticsearch】5.批量操作</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'ligohan',
+            repo: 'ligohan.github.io',
+            oauth: {
+                client_id: 'fa0038813388307a4f56',
+                client_secret: 'fd095a020d30235d15599824df9785d150d6fcd0',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>このブログの内容物は<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>ligohan &copy; 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.shaib.cn/2018/05/11/Elasticsearch/6.IK-analyzer教程/&title=《【Elasticsearch】6.IK-analyzer 教程》 — ShaiB&pic=http://blog.shaib.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.shaib.cn/2018/05/11/Elasticsearch/6.IK-analyzer教程/&title=《【Elasticsearch】6.IK-analyzer 教程》 — ShaiB&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.shaib.cn/2018/05/11/Elasticsearch/6.IK-analyzer教程/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《【Elasticsearch】6.IK-analyzer 教程》 — ShaiB&url=http://blog.shaib.cn/2018/05/11/Elasticsearch/6.IK-analyzer教程/&via=http://blog.shaib.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.shaib.cn/2018/05/11/Elasticsearch/6.IK-analyzer教程/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACvElEQVR42u3aQZLiMBAEQP7/6dnrToChqiV52Yj0acIDtlIHdVPS4xFfP0/X+8/8fefqCVfX8zOf/9584eHh4S0P/WqgV69PhpgAknflY8bDw8M7zbtaUd8Pov1vXjza8Vzex8PDw/saXtt25+Wnbdbx8PDw/hde0dQGk5JMEx4eHt638fIlO1/WZ3FG+7RtWQseHh7ennU7Chfu//vI/h4eHh7e8q56shmWR7RtKzw7dvBrDHh4eHgHeLOItt34nx1KSN4efRIPDw9vK28lMG0D2bZ1nhWeX/fx8PDwjvFmv+7zprktHtuiCjw8PLzDvGQQ68cL1nPX4W8FPDw8vGO82eP2Ns3J1EQlDQ8PD+8W3iwO2HVIa/3tL2JcPDw8vAO89SU+PxYwC4uHhxLw8PDwDvDaba18mc6PHSRNc/Ld2aYdHh4eXstrD0K1UW8b4Obhb1Rg8PDw8G7ntdtgeQFom+koelg5U4aHh4e3wFvf5l8pLW0J+TBBeHh4eDfyZgtx+5y8TR9GHnh4eHiHebMQYe863EbAH/B4eHh4h3l5kLryrfagQLLldvktPDw8vFt4s22n2cGp/EBV8pYX9/Hw8PCO8drDVW3xWGnW26l/URjw8PDwjvGSRXlWVNqtspXDCi9iXDw8PLytvKQMtIvyrF2elahoivHw8PCO8dqgYVYY8vLTTkpUwfDw8PAO8NoDT+vN8cr2WBSO4OHh4R3jJQPKQ9VkEZ8VpPYteHh4eHt5P+XVttf55/NGPw958fDw8E7w2gW3bY5nEW3e3D92XXh4eHglb28xmF351LwPI/Dw8PDu5LXRartJdqRetVkLHh4e3j/izcLc/KjBemuOh4eH9/28WaTbFpvh9hseHh7eMV4yrDY4aIc1ixs+PBkPDw/vAG/4Iz9+5ewowKxl35dh4OHh4b0cyR/OhUrffMtzfwAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = 'ShaiB';
+            clearTimeout(titleTime);
+        } else {
+            document.title = 'ShaiB';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

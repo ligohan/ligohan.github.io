@@ -24,7 +24,7 @@
     <meta name="keywords" content="Software ligohan">
 <meta property="og:type" content="website">
 <meta property="og:title" content="ShaiB">
-<meta property="og:url" content="http://blog.shaib.cn/index.html">
+<meta property="og:url" content="http://blog.shaib.cn/page/2/index.html">
 <meta property="og:site_name" content="ShaiB">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
@@ -63,7 +63,7 @@
     <div class="scroll-wrap flex-col">
       <ul class="nav">
         
-            <li class="waves-block waves-effect active">
+            <li class="waves-block waves-effect">
               <a href="/"  >
                 <i class="icon icon-lg icon-home"></i>
                 Home
@@ -149,11 +149,11 @@
     <ul class="post-list">
     
         <li class="post-list-item fade">
-            <article id="post-Elasticsearch/13.性能测试（esrally安装和使用）"
+            <article id="post-Elasticsearch/5.批量操作"
   class="article-card article-type-post" itemprop="blogPost">
 
     <div class="post-meta">
-        <time class="post-time" title="2018-05-11 16:54:40" datetime="2018-05-11T08:54:40.752Z"  itemprop="datePublished">2018-05-11</time>
+        <time class="post-time" title="2018-05-11 16:54:40" datetime="2018-05-11T08:54:40.706Z"  itemprop="datePublished">2018-05-11</time>
 
         
 
@@ -165,361 +165,7 @@
 
   
     <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2018/05/11/Elasticsearch/13.性能测试（esrally安装和使用）/">【Elasticsearch】13.性能测试（esrally 安装和使用）</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        如何进行压测
-自己写代码，难以确保测试代码的专业性 esperf 和 elasticsearch-stress-test
-http 压测工具。es 对外暴露了 Restful API，因此所有的针对 http 协议的压测工具都可以用来测试 es，比如 JMeter、httpload等等。
-elastic 官方工具 esrally
-
-esrally 介绍
-esrally 是 elastic 官...
-    
-
-        <a href="/2018/05/11/Elasticsearch/13.性能测试（esrally安装和使用）/" class="post-more waves-effect waves-button">
-            続きを読む…
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Elasticsearch/">Elasticsearch</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/esrally/">esrally</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-Elasticsearch/12.集群监控"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2018-05-11 16:54:40" datetime="2018-05-11T08:54:40.748Z"  itemprop="datePublished">2018-05-11</time>
-
-        
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2018/05/11/Elasticsearch/12.集群监控/">【Elasticsearch】12.集群监控</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        集群健康1GET _cluster/health
-
-返回数据
-1234567891011121314151617&#123;  &quot;cluster_name&quot;: &quot;elasticsearch&quot;,  &quot;status&quot;: &quot;green&quot;,  &quot;timed_out&quot;: false,  &quot;nu...
-    
-
-        <a href="/2018/05/11/Elasticsearch/12.集群监控/" class="post-more waves-effect waves-button">
-            続きを読む…
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Elasticsearch/">Elasticsearch</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-Elasticsearch/11.线上部署优化"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2018-05-11 16:54:40" datetime="2018-05-11T08:54:40.743Z"  itemprop="datePublished">2018-05-11</time>
-
-        
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2018/05/11/Elasticsearch/11.线上部署优化/">【Elasticsearch】11.线上部署优化</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        配置JVM HEAP MAP
-修改 /config/jvm.options12-Xms4g-Xmx4g
-
-
-最大内存不要超过32G- [官方说明](https://www.elastic.co/guide/cn/elasticsearch/guide/current/heap-sizing.html)
-禁止内存交互
-防止elasticsearch进程的内存被交换到磁盘，引起性能的急剧下降
-将...
-    
-
-        <a href="/2018/05/11/Elasticsearch/11.线上部署优化/" class="post-more waves-effect waves-button">
-            続きを読む…
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Elasticsearch/">Elasticsearch</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-Elasticsearch/10.多表Join（6.x新类型）"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2018-05-11 16:54:40" datetime="2018-05-11T08:54:40.739Z"  itemprop="datePublished">2018-05-11</time>
-
-        
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2018/05/11/Elasticsearch/10.多表Join（6.x新类型）/">【Elasticsearch】10.多表 Join (6.x 新类型)</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        产生背景
-Mysql中多表关联，我们可以通过 left join 或者 Join 等实现；
-ES5.X版本，借助父子文档实现多表关联，类似数据库中 Join 的功能；实现的核心是借助于ES5.X支持1个索引(index)下多个类型(type)。
-ES6.X版本，每个索引下面只支持单一的类型（type）。
-
-Join 类型介绍
-仍然是一个索引下，借助父子关系，实现类似Mysql中多表关联的操作...
-    
-
-        <a href="/2018/05/11/Elasticsearch/10.多表Join（6.x新类型）/" class="post-more waves-effect waves-button">
-            続きを読む…
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Elasticsearch/">Elasticsearch</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-Elasticsearch/9.深度分页"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2018-05-11 16:54:40" datetime="2018-05-11T08:54:40.734Z"  itemprop="datePublished">2018-05-11</time>
-
-        
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2018/05/11/Elasticsearch/9.深度分页/">【Elasticsearch】9.深度分页</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        什么是深分页问题？
-如果想查询第5000-5100条数据，发送如下查询条件就可以做到：
-12345POST auditlog_operation/operlog/_search&#123;	“from”:5000 //from：定义从哪里开始拿数据	“size”:100 //size：定义一共拿多少条数据&#125;
-
-查询流程如下：
-
-客户端发送请求到某个node节点。
-此node将请求广...
-    
-
-        <a href="/2018/05/11/Elasticsearch/9.深度分页/" class="post-more waves-effect waves-button">
-            続きを読む…
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Elasticsearch/">Elasticsearch</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-Elasticsearch/8.聚合"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2018-05-11 16:54:40" datetime="2018-05-11T08:54:40.729Z"  itemprop="datePublished">2018-05-11</time>
-
-        
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2018/05/11/Elasticsearch/8.聚合/">【Elasticsearch】8.聚合</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        聚合
-在Elasticsearch的聚合中需要掌握两个核心的概念：桶（bucket）、指标（metric）
-桶（bucket）: 满足特定条件的文档的集
-简单来说桶就是满足特定条件的文档的集合。
-当聚合开始被执行，每个文档里面的值通过计算来决定符合哪个桶的条件，如果匹配到，文档将放入相应的桶并接着开始聚合操作。
-桶也可以被嵌套在其他桶里面。
-
-
-指标（metric）: 对桶内的文档进行聚合分...
-    
-
-        <a href="/2018/05/11/Elasticsearch/8.聚合/" class="post-more waves-effect waves-button">
-            続きを読む…
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Elasticsearch/">Elasticsearch</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-Elasticsearch/7.2自动补全、纠错、拼音搜索"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2018-05-11 16:54:40" datetime="2018-05-11T08:54:40.725Z"  itemprop="datePublished">2018-05-11</time>
-
-        
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2018/05/11/Elasticsearch/7.2自动补全、纠错、拼音搜索/">【Elasticsearch】7.2 自动补全、纠错、拼音搜索</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        more_like_this 实现相似文档搜索
-根据文本搜索
-1234567891011GET /ik/message/_search&#123;    &quot;query&quot;: &#123;        &quot;more_like_this&quot; : &#123;            &quot;fields&quot; : [&quot;content&quot...
-    
-
-        <a href="/2018/05/11/Elasticsearch/7.2自动补全、纠错、拼音搜索/" class="post-more waves-effect waves-button">
-            続きを読む…
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Elasticsearch/">Elasticsearch</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-Elasticsearch/7.1JavaHighLevelRESTClient客户端"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2018-05-11 16:54:40" datetime="2018-05-11T08:54:40.721Z"  itemprop="datePublished">2018-05-11</time>
-
-        
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2018/05/11/Elasticsearch/7.1JavaHighLevelRESTClient客户端/">【Elasticsearch】7.1 Java High Level REST Client 客户端</a>
+      <a class="post-title-link" href="/2018/05/11/Elasticsearch/5.批量操作/">【Elasticsearch】5.批量操作</a>
     </h3>
   
 
@@ -530,18 +176,17 @@ Join 类型介绍
 
     
         介绍
-使用最新的 Java High Level REST Client 客户端方式
-官网文档
-官网即将在未来版本取消 Java API 接口，所以必须使用 REST API
-弃用说明
+批量操作好处
+可以减少大量的网络开销和连接资源
+bulk API 允许在单个步骤中进行多次 create 、 index 、 update 或 delete 请求
 
 
 
 
-JAVA API：使用的 netty 协议 TransportClient 端口9300 性能好 上手麻烦，需熟悉 API 和 ES DSL，适合大量频繁数据查询。将在7.0 开始废弃，在8.0版本移...
+请求体格式12345&#123; action: &#123; metadata &#125;&#125;\n ## 指定 哪一个文档 做 什么操作&#123; request body        &#125;\...
     
 
-        <a href="/2018/05/11/Elasticsearch/7.1JavaHighLevelRESTClient客户端/" class="post-more waves-effect waves-button">
+        <a href="/2018/05/11/Elasticsearch/5.批量操作/" class="post-more waves-effect waves-button">
             続きを読む…
         </a>
     </div>
@@ -557,11 +202,11 @@ JAVA API：使用的 netty 协议 TransportClient 端口9300 性能好 上手麻
         </li>
     
         <li class="post-list-item fade">
-            <article id="post-Elasticsearch/7.0全文检索"
+            <article id="post-Elasticsearch/4.索引管理、文档操作"
   class="article-card article-type-post" itemprop="blogPost">
 
     <div class="post-meta">
-        <time class="post-time" title="2018-05-11 16:54:40" datetime="2018-05-11T08:54:40.716Z"  itemprop="datePublished">2018-05-11</time>
+        <time class="post-time" title="2018-05-11 16:54:40" datetime="2018-05-11T08:54:40.701Z"  itemprop="datePublished">2018-05-11</time>
 
         
 
@@ -573,7 +218,7 @@ JAVA API：使用的 netty 协议 TransportClient 端口9300 性能好 上手麻
 
   
     <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2018/05/11/Elasticsearch/7.0全文检索/">【Elasticsearch】7.0 全文检索</a>
+      <a class="post-title-link" href="/2018/05/11/Elasticsearch/4.索引管理、文档操作/">【Elasticsearch】4.索引管理、文档操作</a>
     </h3>
   
 
@@ -583,13 +228,24 @@ JAVA API：使用的 netty 协议 TransportClient 端口9300 性能好 上手麻
     <div class="post-content" id="post-content" itemprop="postContent">
 
     
-        关于DSL
-es中的查询请求有两种方式:
-一种是简易版的查询，像传递URL参数一样去传递查询语句
-例如 /library/books/_search?q123456	- 一种是使用JSON完整的请求体，叫做**结构化查询（DSL）**。		- 由于DSL查询更为直观也更为简易，所以大都使用这种方式。		- DSL查询是POST过去一个json，由于post的请求是json格式的，所以存在很多...
+        索引管理
+可以使用 Kibana 的 Dev Tools 执行命令
+可以根据光标单独执行某一条命令
+                
+                    
+                    
+                
+                
+            
+
+
+
+常用索引指令
+查看集群健康状况：GET /_cat/health?v
+查询集...
     
 
-        <a href="/2018/05/11/Elasticsearch/7.0全文检索/" class="post-more waves-effect waves-button">
+        <a href="/2018/05/11/Elasticsearch/4.索引管理、文档操作/" class="post-more waves-effect waves-button">
             続きを読む…
         </a>
     </div>
@@ -605,11 +261,11 @@ es中的查询请求有两种方式:
         </li>
     
         <li class="post-list-item fade">
-            <article id="post-Elasticsearch/6.IK-analyzer教程"
+            <article id="post-Elasticsearch/3.2logstash安装配置和使用"
   class="article-card article-type-post" itemprop="blogPost">
 
     <div class="post-meta">
-        <time class="post-time" title="2018-05-11 16:54:40" datetime="2018-05-11T08:54:40.711Z"  itemprop="datePublished">2018-05-11</time>
+        <time class="post-time" title="2018-05-11 16:54:40" datetime="2018-05-11T08:54:40.696Z"  itemprop="datePublished">2018-05-11</time>
 
         
 
@@ -621,7 +277,7 @@ es中的查询请求有两种方式:
 
   
     <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2018/05/11/Elasticsearch/6.IK-analyzer教程/">【Elasticsearch】6.IK-analyzer 教程</a>
+      <a class="post-title-link" href="/2018/05/11/Elasticsearch/3.2logstash安装配置和使用/">【Elasticsearch】3.2 Kibana 安装配置和使用</a>
     </h3>
   
 
@@ -632,22 +288,386 @@ es中的查询请求有两种方式:
 
     
         介绍
-IKAnalyzer是一个开源的，基于java语言开发的轻量级的中文分词工具包。
-IKAnalyzer3.0特性:
-采用了特有的“正向迭代最细粒度切分算法“，支持细粒度和最大词长两种切分模式；具有83万字/秒（1600KB/S）的高速处理能力。
-采用了多子处理器分析模式，支持：英文字母、数字、中文词汇等分词处理，兼容韩文、日文字符
-优化的词典存储，更小的内存占用。支持用户词典扩展定义
-...
+Logstash 是一个开源的数据收集引擎，它具有备实时数据传输能力。它可以统一过滤来自不同源的数据，并按照开发者的制定的规范输出到目的地。
+顾名思义，Logstash 收集数据对象就是日志文件。由于日志文件来源多（如：系统日志、服务器 日志等），且内容杂乱，不便于人类进行观察。因此，我们可以使用 Logstash 对日志文件进行收集和统一过滤，变成可读性高的内容，方便开发者或运维人员...
     
 
-        <a href="/2018/05/11/Elasticsearch/6.IK-analyzer教程/" class="post-more waves-effect waves-button">
+        <a href="/2018/05/11/Elasticsearch/3.2logstash安装配置和使用/" class="post-more waves-effect waves-button">
             続きを読む…
         </a>
     </div>
     
     <div class="post-footer">
         
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Elasticsearch/">Elasticsearch</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/IK-analyzer/">IK-analyzer</a></li></ul>
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ELK/">ELK</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Elasticsearch/">Elasticsearch</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Logstash/">Logstash</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-Elasticsearch/3.1Kibana安装配置和使用"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2018-05-11 16:54:40" datetime="2018-05-11T08:54:40.692Z"  itemprop="datePublished">2018-05-11</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2018/05/11/Elasticsearch/3.1Kibana安装配置和使用/">【Elasticsearch】3.1 Kibana 安装配置和使用</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        介绍
+Kibana是一个开源的分析与可视化平台，设计出来用于和Elasticsearch一起使用的。你可以用kibana搜索、查看、交互存放在Elasticsearch索引里的数据，使用各种不同的图表、表格、地图等kibana能够很轻易地展示高级数据分析与可视化。
+Kibana让我们理解大量数据变得很容易。它简单、基于浏览器的接口使你能快速创建和分享实时展现Elasticsearch查询变化...
+    
+
+        <a href="/2018/05/11/Elasticsearch/3.1Kibana安装配置和使用/" class="post-more waves-effect waves-button">
+            続きを読む…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ELK/">ELK</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Elasticsearch/">Elasticsearch</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kibana/">Kibana</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-Elasticsearch/3.0X-Pack安装和使用"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2018-05-11 16:54:40" datetime="2018-05-11T08:54:40.688Z"  itemprop="datePublished">2018-05-11</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2018/05/11/Elasticsearch/3.0X-Pack安装和使用/">【Elasticsearch】3.0 X-Pack 安装和使用</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        前言
+安装X-Pack之前需要安装Elasticsearch、logstash和Kibana（ELK环境）
+
+Kibana 安装配置和使用
+
+logstash 安装配置和使用
+
+
+介绍
+X-pack监控组件使你可以通过 Kibana 轻松地监控 ElasticSearch。您可以实时查看集群的健康和性能，以及分析过去的集群、索引和节点度量。此外，您可以监视 Kibana 本身性能。当你安装 ...
+    
+
+        <a href="/2018/05/11/Elasticsearch/3.0X-Pack安装和使用/" class="post-more waves-effect waves-button">
+            続きを読む…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ELK/">ELK</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Elasticsearch/">Elasticsearch</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kibana/">Kibana</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/X-Pack/">X-Pack</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-Elasticsearch/2.Elasticsearch安装部署"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2018-05-11 16:54:40" datetime="2018-05-11T08:54:40.683Z"  itemprop="datePublished">2018-05-11</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2018/05/11/Elasticsearch/2.Elasticsearch安装部署/">【Elasticsearch】2.Elasticsearch 安装部署</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        准备
+Elasticsearch 需要 JAVA8 环境
+CentOS7.4 已自带
+检测与安装方法
+
+
+
+安装解压包方式
+下载解压包
+ 1wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.2.3.tar.gz
+
+或者从官网中下载相应的压缩包，使用ftp上传至服务器进行解压缩安装
+
+
+因为 El...
+    
+
+        <a href="/2018/05/11/Elasticsearch/2.Elasticsearch安装部署/" class="post-more waves-effect waves-button">
+            続きを読む…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Elasticsearch/">Elasticsearch</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-Elasticsearch/1.Elasticsearch基础知识"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2018-05-11 16:54:40" datetime="2018-05-11T08:54:40.680Z"  itemprop="datePublished">2018-05-11</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2018/05/11/Elasticsearch/1.Elasticsearch基础知识/">【Elasticsearch】1.Elasticsearch 基础知识</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        Elasticsearch 是什么Elasticsearch 定义
+官网：
+一个分布式的实时文档存储，每个字段都可以被索引与搜索
+一个分布式实时分析搜索引擎
+能胜任上百个服务节点的扩展，并支持 PB 级别的结构化或者非结构化数据
+
+
+百度百科：ElasticSearch 是一个基于 Lucene 的搜索服务器。它提供了一个分布式多用户能力的全文搜索引擎，基于 RESTful web 口，通过...
+    
+
+        <a href="/2018/05/11/Elasticsearch/1.Elasticsearch基础知识/" class="post-more waves-effect waves-button">
+            続きを読む…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Elasticsearch/">Elasticsearch</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-0.Elasticsearch学习大纲"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2018-05-11 16:54:40" datetime="2018-05-11T08:54:40.671Z"  itemprop="datePublished">2018-05-11</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2018/05/11/0.Elasticsearch学习大纲/">【Elasticsearch】0.Elasticsearch学习大纲</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        Elasticsearch学习大纲开发环境
+Elasticsearch 版本：6.2.3
+系统：CentOS 7.4 x64
+JDK 版本：JDK 1.8.0_131
+
+目录
+1.Elasticsearch 基础知识
+2.Elasticsearch 安装配置和使用
+3.X-Pack 安装配置和使用
+3.1Kibana安装配置和使用
+3.2logstash安装配置和使用
+
+
+4.索引管理、文档...
+    
+
+        <a href="/2018/05/11/0.Elasticsearch学习大纲/" class="post-more waves-effect waves-button">
+            続きを読む…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Elasticsearch/">Elasticsearch</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-【FastDFS】2.FastDFS与SpringBoot集成"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2018-05-10 20:35:05" datetime="2018-05-10T12:35:05.261Z"  itemprop="datePublished">2018-05-10</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2018/05/10/【FastDFS】2.FastDFS与SpringBoot集成/">【FastDFS】2.FastDFS 与 SpringBoot 集成</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        DEMOhttps://github.com/ligohan/springboot-fastdfs-demo
+整合到 SpringBoot 项目流程添加 pom 依赖12345&lt;dependency&gt;    &lt;groupId&gt;com.github.tobato&lt;/groupId&gt;    &lt;artifactId&gt;fastdfs-client&lt...
+    
+
+        <a href="/2018/05/10/【FastDFS】2.FastDFS与SpringBoot集成/" class="post-more waves-effect waves-button">
+            続きを読む…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/FastDFS/">FastDFS</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-【FastDFS】1.FastDFS安装和部署"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2018-05-10 14:07:36" datetime="2018-05-10T06:07:36.285Z"  itemprop="datePublished">2018-05-10</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2018/05/10/【FastDFS】1.FastDFS安装和部署/">【FastDFS】1.FastDFS 安装和部署</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        是什么
+FastDFS 详细介绍：https://www.oschina.net/p/fastdfs
+
+开发环境
+FastDFS 5.12
+CentOS 6.7
+
+环境准备编译环境1yum install git gcc gcc-c++ make automake autoconf libtool pcre pcre-devel zlib zlib-devel openssl-devel -...
+    
+
+        <a href="/2018/05/10/【FastDFS】1.FastDFS安装和部署/" class="post-more waves-effect waves-button">
+            続きを読む…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/FastDFS/">FastDFS</a></li></ul>
 
     </div>
     
@@ -660,7 +680,7 @@ IKAnalyzer3.0特性:
     
 <nav id="page-nav">
     <div class="inner">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
+    <a class="extend prev" rel="prev" href="/">上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
     </div>
 </nav>
 
@@ -706,7 +726,7 @@ IKAnalyzer3.0特性:
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.shaib.cn/&title=ShaiB&pic=http://blog.shaib.cn/img/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.shaib.cn/page/2/&title=ShaiB&pic=http://blog.shaib.cn/img/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -716,22 +736,22 @@ IKAnalyzer3.0特性:
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.shaib.cn/&title=ShaiB&source=" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.shaib.cn/page/2/&title=ShaiB&source=" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.shaib.cn/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.shaib.cn/page/2/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=ShaiB&url=http://blog.shaib.cn/&via=http://blog.shaib.cn" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=ShaiB&url=http://blog.shaib.cn/page/2/&via=http://blog.shaib.cn" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.shaib.cn/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.shaib.cn/page/2/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -742,7 +762,7 @@ IKAnalyzer3.0特性:
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACWCAAAAAAZai4+AAABSklEQVR42u3awRLCIAxF0f7/T9eNO2y9L1BnJJeVoxQPiyYQOA7czqGNv171HPsva7JkbcQ6b9vMn/FxPowmS1ZL1tWgaR8yvftxZMmSlbJqAUKWLFmrWCQN1wKNLFmdWWmKTXs+uJaXJWsLFk+6858fqW/JkvXnrDNs5NmZ8d8jyJLVjMVf4FphaKb4K0uWrHRzy7e1wSRlyWrMqm0mnwgxsmR1Y/GlMH/t06LwF5wsWVuzeLqduYIQH53KktWMxQu46cK3FjhQ9JIla1NWrdDDn0q/kSWrM4tc7gkKsqVAI0uWrDS3kws9tTWwLFndWKsuHJBkfM+VJaszK63hkNQ7tW9OmyxZG7FIUEgDRG0CsmTJSo9JfhSTZMmSFV4X4NcU4hMeWbJkkVpUmKTRUY0sWS1Z5CVPQXzysmTJSlewBF07bpElqyXrBaFI7ja9e5ZLAAAAAElFTkSuQmCC" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABxElEQVR42u3aQW7DIBAF0Nz/0u62UlvyP2DiSo9VlBDz8GIEM/N6xeP6MZKZ378Zz9k8cHFxl7nXcIyXzJcfz08MuLi457ntAuMnjCl/zUmejIuL+0xuu438+bi4uP+Rux688gsSLi7uE7jJ5Wcu5K38CxcX91PcPEt53+db8ru4uLhT3GthjAPcevD6ZUVcXNwj3DboJCWQ9vqUvAJcXNyT3CRt0YaeuUtRFCJxcXGPc/M0RNJm0bZ0RAZcXNyD3L2HmLwAU8/ExcU9yG1TGHkIm8uFRuVVXFzc27htq8RKo0a+4br9AhcXdyu3DVV7w1x7nMLFxT3Pncs8FPEySIy+uRrh4uIe5BZ/KJOtc9t4E8hwcXGPcOuAUl6c5rjF5QcXF3crt018JAnNtvSS/4qLi3uG2zZD5E1aeQm22BguLu4R7nq/U4Jux5un4eLi3sy9ypGXVZImj+LCk7wbXFzcTdyVxqm9rRV5AgUXF/cMt22MSFouknczWcTFxcU9yF05uCRhbm4buLi4z+feUYKtSzK4uLgP486lVNpDUtGehYuLezO3XSw/muTFlSiFiouLe4SbJ0zn5q9zJ/O7uLi4M9wvwPq0e0r7rxUAAAAASUVORK5CYII=" alt="微信分享二维码">
 </div>
 
 
