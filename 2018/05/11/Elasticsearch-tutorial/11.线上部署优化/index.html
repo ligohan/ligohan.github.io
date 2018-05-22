@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>【Elasticsearch】11.线上部署优化 | ShaiB</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Elasticsearch">
+    <meta name="description" content="配置JVM HEAP MAP 修改 /config/jvm.options12-Xms4g-Xmx4g   最大内存不要超过32G- [官方说明](https://www.elastic.co/guide/cn/elasticsearch/guide/current/heap-sizing.html) 禁止内存交互 防止elasticsearch进程的内存被交换到磁盘，引起性能的急剧下降 将con">
+<meta name="keywords" content="Elasticsearch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Elasticsearch】11.线上部署优化">
+<meta property="og:url" content="http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/11.线上部署优化/index.html">
+<meta property="og:site_name" content="ShaiB">
+<meta property="og:description" content="配置JVM HEAP MAP 修改 /config/jvm.options12-Xms4g-Xmx4g   最大内存不要超过32G- [官方说明](https://www.elastic.co/guide/cn/elasticsearch/guide/current/heap-sizing.html) 禁止内存交互 防止elasticsearch进程的内存被交换到磁盘，引起性能的急剧下降 将con">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.imgur.com/tG6jz9X.png">
+<meta property="og:image" content="https://i.imgur.com/tqwrqI8.png">
+<meta property="og:updated_time" content="2018-05-11T09:04:37.949Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【Elasticsearch】11.线上部署优化">
+<meta name="twitter:description" content="配置JVM HEAP MAP 修改 /config/jvm.options12-Xms4g-Xmx4g   最大内存不要超过32G- [官方说明](https://www.elastic.co/guide/cn/elasticsearch/guide/current/heap-sizing.html) 禁止内存交互 防止elasticsearch进程的内存被交换到磁盘，引起性能的急剧下降 将con">
+<meta name="twitter:image" content="https://i.imgur.com/tG6jz9X.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="ShaiB" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu"  >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">ligohan</h5>
+          <a href="mailto:www.lijun07@qq.com" title="www.lijun07@qq.com" class="mail">www.lijun07@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ligohan" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://weibo.com/hanakawaii" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">【Elasticsearch】11.线上部署优化</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">【Elasticsearch】11.线上部署优化</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-05-11T08:54:40.743Z" itemprop="datePublished" class="page-time">
+  2018-05-11
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#配置JVM-HEAP-MAP"><span class="post-toc-number">1.</span> <span class="post-toc-text">配置JVM HEAP MAP</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#最大内存不要超过32G"><span class="post-toc-number">2.</span> <span class="post-toc-text">最大内存不要超过32G</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#禁止内存交互"><span class="post-toc-number">3.</span> <span class="post-toc-text">禁止内存交互</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#修改系统允许的最大文件打开数"><span class="post-toc-number">4.</span> <span class="post-toc-text">修改系统允许的最大文件打开数</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#清除缓存"><span class="post-toc-number">5.</span> <span class="post-toc-text">清除缓存</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-Elasticsearch-tutorial/11.线上部署优化"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">【Elasticsearch】11.线上部署优化</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-05-11 16:54:40" datetime="2018-05-11T08:54:40.743Z"  itemprop="datePublished">2018-05-11</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="配置JVM-HEAP-MAP"><a href="#配置JVM-HEAP-MAP" class="headerlink" title="配置JVM HEAP MAP"></a>配置JVM HEAP MAP</h2><ul>
+<li>修改 /config/jvm.options<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-Xms4g</span><br><span class="line">-Xmx4g</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="最大内存不要超过32G"><a href="#最大内存不要超过32G" class="headerlink" title="最大内存不要超过32G"></a>最大内存不要超过32G</h2><pre><code>- [官方说明](https://www.elastic.co/guide/cn/elasticsearch/guide/current/heap-sizing.html)
+</code></pre><h2 id="禁止内存交互"><a href="#禁止内存交互" class="headerlink" title="禁止内存交互"></a>禁止内存交互</h2><ul>
+<li>防止elasticsearch进程的内存被交换到磁盘，引起性能的急剧下降</li>
+<li><p>将config/elasticsearch.yml中的bootstrap.mlockall项设为true</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bootstrap.memory_lock true</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置好之后，用下面的命令检查返回的mlockall设置项是否为true</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl http://localhost:9200/_nodes/process?pretty</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://i.imgur.com/tG6jz9X.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h2 id="修改系统允许的最大文件打开数"><a href="#修改系统允许的最大文件打开数" class="headerlink" title="修改系统允许的最大文件打开数"></a>修改系统允许的最大文件打开数</h2><ul>
+<li>使用下面命令然后查看open file的数字<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ulimit -a</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://i.imgur.com/tqwrqI8.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<ul>
+<li>将最大文件打开数调整为20480<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vim /etc/security/limits.conf</span><br><span class="line">&quot;&quot;</span><br><span class="line">*   soft nofile   20480</span><br><span class="line">*   hard nofile   20480</span><br><span class="line">&quot;&quot;</span><br><span class="line"></span><br><span class="line">$ sudo reboot -h now</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="清除缓存"><a href="#清除缓存" class="headerlink" title="清除缓存"></a>清除缓存</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST &quot;localhost:9200/_cache/clear&quot;</span><br></pre></td></tr></table></figure>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2018-05-11T09:04:37.949Z" itemprop="dateUpdated">2018-05-11 17:04:37</time>
+</span><br>
+
+
+        
+        微博：<a href="https://weibo.com/hanakawaii">@俊俊俊俊__</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://blog.shaib.cn">
+            <img src="/img/avatar.jpg" alt="ligohan">
+            ligohan
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Elasticsearch/">Elasticsearch</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/11.线上部署优化/&title=《【Elasticsearch】11.线上部署优化》 — ShaiB&pic=http://blog.shaib.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/11.线上部署优化/&title=《【Elasticsearch】11.线上部署优化》 — ShaiB&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/11.线上部署优化/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《【Elasticsearch】11.线上部署优化》 — ShaiB&url=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/11.线上部署优化/&via=http://blog.shaib.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/11.线上部署优化/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/05/11/Elasticsearch-tutorial/12.集群监控/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">【Elasticsearch】12.集群监控</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/05/11/Elasticsearch-tutorial/10.多表Join（6.x新类型）/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">【Elasticsearch】10.多表 Join (6.x 新类型)</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'ligohan',
+            repo: 'ligohan.github.io',
+            oauth: {
+                client_id: 'fa0038813388307a4f56',
+                client_secret: 'fd095a020d30235d15599824df9785d150d6fcd0',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>ligohan &copy; 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/11.线上部署优化/&title=《【Elasticsearch】11.线上部署优化》 — ShaiB&pic=http://blog.shaib.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/11.线上部署优化/&title=《【Elasticsearch】11.线上部署优化》 — ShaiB&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/11.线上部署优化/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《【Elasticsearch】11.线上部署优化》 — ShaiB&url=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/11.线上部署优化/&via=http://blog.shaib.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/11.线上部署优化/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACvUlEQVR42u3a22rDMBAE0Pz/T6fQp0KxM7OS0hSOn0wuzh4FJDGrxyO+nt9X/vrPd39+5v7+6vO/X9984eHh4Y1Kv7ruS7mn3heXF52wL5+Gh4eHd4x3P+knvHYxyGu4f+aL5+Dh4eH9Ka9dHvJBSQYCDw8P7z/y8qm/LTQPLPDw8PA+h5eEEXms0H63jTOOZC14eHh4Ma9tgH3C/cH+Hh4eHt5CVz2ffFeC3WQhGVaIh4eHd4DXtvBnLa53NtiicvHw8PCWeW3zvo0GWny7/ERgPDw8vK28ZGJtJ/HZQYHk88kQR/8bHh4e3jIvbz4lP9we28obZm1teHh4eHt5+fS63rjKt9dJeBEtLXh4eHjHePmBp1nR7SGA2WJw2d/Dw8PDO8bL44lZoW1DaxZwFOOEh4eHt8zL49E89s0XiXago2HFw8PDO8ZrSXlUMTsikD+5iHHx8PDwDvPuw4j84FTb/p/tk1+EEXh4eHhbebMm1mzubZ9zX3oRIuPh4eEd5rUb6HzqT8ptQ94o1MDDw8M7wFvZsLaFbm5xtdt0PDw8vGVeG6S22+52w50DooHDw8PDO8CbHaKaTd8rC0l7qqrooeHh4eGNeMkGOo961yf3fIkq4hI8PDy8Tby2QTUcuQC8q232WHkQHh4eXrwHnsWv7eIxbPzHG/EXh67w8PDwtvLyuDaPYmcb9PuFYRZY4OHh4Z3grRxsmh2Zmm2p638MDw8P7+28NiCYDUr+rWEbDA8PD28r71le75z687jhslo8PDy8A7x2X5qHrUlByX2+sR7C8PDw8Ea89YZWOxBtWNxu2fHw8PDew5stBm3Lv/3WSlqLh4eH9zm89fAiP3zQLgZ4eHh4n8ZbaVO1C08bAW9YGPDw8PBK3t5G/uzwQb7wDA9d4eHh4W3irUziyc/PYuL1vwQPDw/vAO8L807kKfvnjA4AAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = 'ShaiB';
+            clearTimeout(titleTime);
+        } else {
+            document.title = 'ShaiB';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

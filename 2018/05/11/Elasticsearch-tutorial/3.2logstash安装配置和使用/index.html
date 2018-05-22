@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>【Elasticsearch】3.2 Kibana 安装配置和使用 | ShaiB</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Elasticsearch,ELK,Logstash">
+    <meta name="description" content="介绍 Logstash 是一个开源的数据收集引擎，它具有备实时数据传输能力。它可以统一过滤来自不同源的数据，并按照开发者的制定的规范输出到目的地。 顾名思义，Logstash 收集数据对象就是日志文件。由于日志文件来源多（如：系统日志、服务器 日志等），且内容杂乱，不便于人类进行观察。因此，我们可以使用 Logstash 对日志文件进行收集和统一过滤，变成可读性高的内容，方便开发者或运维人员观察，">
+<meta name="keywords" content="Elasticsearch,ELK,Logstash">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Elasticsearch】3.2 Kibana 安装配置和使用">
+<meta property="og:url" content="http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/3.2logstash安装配置和使用/index.html">
+<meta property="og:site_name" content="ShaiB">
+<meta property="og:description" content="介绍 Logstash 是一个开源的数据收集引擎，它具有备实时数据传输能力。它可以统一过滤来自不同源的数据，并按照开发者的制定的规范输出到目的地。 顾名思义，Logstash 收集数据对象就是日志文件。由于日志文件来源多（如：系统日志、服务器 日志等），且内容杂乱，不便于人类进行观察。因此，我们可以使用 Logstash 对日志文件进行收集和统一过滤，变成可读性高的内容，方便开发者或运维人员观察，">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-05-11T08:58:35.670Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【Elasticsearch】3.2 Kibana 安装配置和使用">
+<meta name="twitter:description" content="介绍 Logstash 是一个开源的数据收集引擎，它具有备实时数据传输能力。它可以统一过滤来自不同源的数据，并按照开发者的制定的规范输出到目的地。 顾名思义，Logstash 收集数据对象就是日志文件。由于日志文件来源多（如：系统日志、服务器 日志等），且内容杂乱，不便于人类进行观察。因此，我们可以使用 Logstash 对日志文件进行收集和统一过滤，变成可读性高的内容，方便开发者或运维人员观察，">
+    
+        <link rel="alternate" type="application/atom+xml" title="ShaiB" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu"  >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">ligohan</h5>
+          <a href="mailto:www.lijun07@qq.com" title="www.lijun07@qq.com" class="mail">www.lijun07@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ligohan" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://weibo.com/hanakawaii" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">【Elasticsearch】3.2 Kibana 安装配置和使用</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">【Elasticsearch】3.2 Kibana 安装配置和使用</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-05-11T08:54:40.696Z" itemprop="datePublished" class="page-time">
+  2018-05-11
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#介绍"><span class="post-toc-number">1.</span> <span class="post-toc-text">介绍</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#安装"><span class="post-toc-number">2.</span> <span class="post-toc-text">安装</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#解压包方式"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">解压包方式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#加载配置文件启动"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">加载配置文件启动</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#使用"><span class="post-toc-number">3.</span> <span class="post-toc-text">使用</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-Elasticsearch-tutorial/3.2logstash安装配置和使用"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">【Elasticsearch】3.2 Kibana 安装配置和使用</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-05-11 16:54:40" datetime="2018-05-11T08:54:40.696Z"  itemprop="datePublished">2018-05-11</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><ul>
+<li>Logstash 是一个开源的<strong>数据收集引擎</strong>，它具有备实时数据传输能力。它可以统一过滤来自不同源的数据，并按照开发者的制定的规范输出到目的地。</li>
+<li>顾名思义，Logstash 收集数据对象就是日志文件。由于日志文件来源多（如：系统日志、服务器 日志等），且内容杂乱，不便于人类进行观察。因此，我们可以使用 Logstash 对日志文件进行收集和统一过滤，变成可读性高的内容，方便开发者或运维人员观察，从而有效的分析系统/项目运行的性能，做好监控和预警的准备工作等。</li>
+</ul>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="解压包方式"><a href="#解压包方式" class="headerlink" title="解压包方式"></a>解压包方式</h3><ul>
+<li><a href="https://www.elastic.co/downloads/logstash" target="_blank" rel="noopener">官网下载地址</a></li>
+<li><p>解压</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf logstash-6.2.3-linux-x86_64.tar.gz</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改 config/kibana.yml文件：<figure class="highlight vim"><figcaption><span>/usr/workspace/kibana-6.2.3/config/kibana.yml```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- 加入以下内容</span><br></pre></td></tr></table></figure></p>
+<p>  #端口<br>  server.port: 5601<br>  #访问的IP地址<br>  server.host: “192.168.75.128”<br>  #es的地址<br>  elasticsearch.url: “http://:9200”<br>  #kibana在es中的索引<br>  kibana.index: “.kibana” </p>
+<p>  #X-Pack账号密码，可在elasticsearch.yml配置关闭（详见Elasticsearch安装部署和使用.md）<br>  elasticsearch.username: “elastic”<br>  elasticsearch.password: “123456”  </p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### Docker 方式</span><br><span class="line"></span><br><span class="line">- 拉取镜像</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>docker pull docker.elastic.co/logstash/logstash:6.2.3<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 启动Kibana</span><br></pre></td></tr></table></figure></p>
+<p>docker run -v /usr/local/logstash/conf.d:/usr/share/logstash/pipeline/:ro -v /tmp:/tmp:ro \<br>-v /usr/local/logstash/logstash.yml:/usr/share/logstash/config/logstash.yml:ro –name my-logstash \<br>docker.elastic.co/logstash/logstash:6.2.3<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## 启动 </span><br><span class="line">### 测试启动</span><br><span class="line">- 输入命令：```bin/logstash -e &apos;input &#123; stdin &#123; &#125; &#125; output &#123; stdout &#123; codec =&gt; rubydebug &#125; &#125;&apos;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>再次输入 hello world 回车，返回结果：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line">    &quot;@timestamp&quot; =&gt; 2018-04-12T09:39:23.912Z,  </span><br><span class="line">          &quot;host&quot; =&gt; &quot;192.168.75.128&quot;,  </span><br><span class="line">       &quot;message&quot; =&gt; &quot;hello world&quot;,  </span><br><span class="line">      &quot;@version&quot; =&gt; &quot;1&quot;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="加载配置文件启动"><a href="#加载配置文件启动" class="headerlink" title="加载配置文件启动"></a>加载配置文件启动</h3><ul>
+<li><p>启动命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/logstash -f config/logstash.conf</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><a href="https://github.com/judasn/Linux-Tutorial/blob/master/markdown-file/Logstash-Base.md" target="_blank" rel="noopener">配置文件详解</a></p>
+</li>
+</ul>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p><a href="https://github.com/judasn/Linux-Tutorial/blob/master/markdown-file/Logstash-Base.md" target="_blank" rel="noopener">https://github.com/judasn/Linux-Tutorial/blob/master/markdown-file/Logstash-Base.md</a></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2018-05-11T08:58:35.670Z" itemprop="dateUpdated">2018-05-11 16:58:35</time>
+</span><br>
+
+
+        
+        微博：<a href="https://weibo.com/hanakawaii">@俊俊俊俊__</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://blog.shaib.cn">
+            <img src="/img/avatar.jpg" alt="ligohan">
+            ligohan
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ELK/">ELK</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Elasticsearch/">Elasticsearch</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Logstash/">Logstash</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/3.2logstash安装配置和使用/&title=《【Elasticsearch】3.2 Kibana 安装配置和使用》 — ShaiB&pic=http://blog.shaib.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/3.2logstash安装配置和使用/&title=《【Elasticsearch】3.2 Kibana 安装配置和使用》 — ShaiB&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/3.2logstash安装配置和使用/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《【Elasticsearch】3.2 Kibana 安装配置和使用》 — ShaiB&url=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/3.2logstash安装配置和使用/&via=http://blog.shaib.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/3.2logstash安装配置和使用/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/05/11/Elasticsearch-tutorial/4.索引管理、文档操作/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">【Elasticsearch】4.索引管理、文档操作</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/05/11/Elasticsearch-tutorial/3.1Kibana安装配置和使用/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">【Elasticsearch】3.1 Kibana 安装配置和使用</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'ligohan',
+            repo: 'ligohan.github.io',
+            oauth: {
+                client_id: 'fa0038813388307a4f56',
+                client_secret: 'fd095a020d30235d15599824df9785d150d6fcd0',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>ligohan &copy; 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/3.2logstash安装配置和使用/&title=《【Elasticsearch】3.2 Kibana 安装配置和使用》 — ShaiB&pic=http://blog.shaib.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/3.2logstash安装配置和使用/&title=《【Elasticsearch】3.2 Kibana 安装配置和使用》 — ShaiB&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/3.2logstash安装配置和使用/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《【Elasticsearch】3.2 Kibana 安装配置和使用》 — ShaiB&url=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/3.2logstash安装配置和使用/&via=http://blog.shaib.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/3.2logstash安装配置和使用/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADL0lEQVR42u3a0U7jUAwEUP7/p9nnFRBm7CA1tydPVUXTe4KE8dgfH/H1+eX6+v71O+3drn/m690+/uLCxsbGfgg7/7IZ6adjzT57fYbEgo2NjX0q+/pYySO4/uysXOU1KLdgY2NjYycF5qdjXQOS9iYpYNjY2NjYs9vlzUMeCc0eGTY2NvZ7smehfB4DzVqUfKjwh1kaNjY29suz8/jm9V//yXwbGxsb+4XZn+XVlpM8Wpot7swubGxs7JPYbXCTA1rqbHjQjh+wsbGxz2PvR7l3lZ92oNs+rJsn2NjY2Ngvxt5H9rNCeNd9hk0INjY29hHs2QBgH+VfL9a0JS2JtKJ9JWxsbOyHs/N1meTf/RaQ3C1vk/I7Y2NjYz+dnQ9x23WZtuXIo6vZQLr+3WJjY2M/ij1rGPKh7H4UMRvu/vi92NjY2G/ATkrR/lhJAZuNDX65AzY2NvZB7Lx0JUVrExjtF3fasQE2Njb2Gey2bcgPvTniXQXsl/EANjY29hHsDaZdoMkfwXVp3P+SsLGxsc9jtzfNW448xN+v6QwbEmxsbOw3YG8aiTwk2o+Hk+EENjY29qnsvMHIVyRn/dB+zFAXUWxsbOyHs9tCMit1bSA1WxIqFomwsbGxD2Ln5SQhtWOGvATOwqyo+GFjY2MfzW4L0iaQygcJ+7KKjY2NfRJ7FsS3x/qLNZ02qPrvNTY2NvZB7E0B26xjto1EPirOwylsbGzsU9nJF9x10LbktE3OcL6NjY2N/Sj2PovalK62adl86psODBsbG/sI9n6NZrOysx8qt+cZ9lXY2NjYD2G3xWOGn42T7xpafFPAsLGxsQ9it7F7Ei0loVX+WDfnwcbGxn4Hdhu4t+PeJFrarAHV3Qc2Njb2EezP8sqPkt8h+WweVEXtCjY2NvZB7PZP/6YJad+/d/Q7LH7Y2NjYD2Hv1y7zwcC+ddkMqoukChsbG/uB7DZUypdy2mo5Wx6qoyhsbGzst2fvF2uSBzRrM6IACxsbG/uN2W3j0bY0s4iqbVSwsbGxz2PnAdCmYWhbiLvCqdV4ABsbG/vl2XkZyJuN9lFuhr7tCAEbGxv7IPY/eJpT71NDVWEAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = 'ShaiB';
+            clearTimeout(titleTime);
+        } else {
+            document.title = 'ShaiB';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

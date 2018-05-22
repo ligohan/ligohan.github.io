@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.shaib.cn/"/>
-  <updated>2018-05-11T09:05:20.621Z</updated>
+  <updated>2018-05-22T01:26:15.734Z</updated>
   <id>http://blog.shaib.cn/</id>
   
   <author>
@@ -17,9 +17,35 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>【刘力菲】按键精灵实现自动换号投票教程</title>
+    <link href="http://blog.shaib.cn/2018/05/22/%E5%88%98%E5%8A%9B%E8%8F%B2/%E3%80%90%E5%88%98%E5%8A%9B%E8%8F%B2%E3%80%91%E6%8C%89%E9%94%AE%E7%B2%BE%E7%81%B5%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%8A%A8%E6%8D%A2%E5%8F%B7%E6%8A%95%E7%A5%A8%E6%95%99%E7%A8%8B/"/>
+    <id>http://blog.shaib.cn/2018/05/22/刘力菲/【刘力菲】按键精灵实现自动换号投票教程/</id>
+    <published>2018-05-22T01:25:02.849Z</published>
+    <updated>2018-05-22T01:26:15.734Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="软件下载"><a href="#软件下载" class="headerlink" title="软件下载"></a>软件下载</h2><ul><li>按键精灵 2014 ：<a href="http://www.anjian.com/download.htm" target="_blank" rel="noopener">http://www.anjian.com/download.htm</a></li><li>夜神安卓模拟器：<a href="https://www.yeshen.com/" target="_blank" rel="noopener">https://www.yeshen.com/</a></li></ul><h2 id="投票-app-下载"><a href="#投票-app-下载" class="headerlink" title="投票 app 下载"></a>投票 app 下载</h2><ul><li>网易薄荷（Android）：<a href="http://live.ent.163.com/download/android" target="_blank" rel="noopener">http://live.ent.163.com/download/android</a></li></ul><blockquote><p>先运行安卓模拟器后，将 app 安装文件拖拽过去自动完成安装</p></blockquote><h2 id="提供账号购买链接"><a href="#提供账号购买链接" class="headerlink" title="提供账号购买链接"></a>提供账号购买链接</h2><h4 id="按需购买，可找应援会报销"><a href="#按需购买，可找应援会报销" class="headerlink" title="按需购买，可找应援会报销"></a>按需购买，可找应援会报销</h4><ul><li>邮箱批发：<a href="http://www.yxc3.com/888.php" target="_blank" rel="noopener">http://www.yxc3.com/888.php</a></li><li>微博账号：<a href="http://www.onini.cn/fnihppgd" target="_blank" rel="noopener">http://www.onini.cn/fnihppgd</a></li></ul><h2 id="视频教程"><a href="#视频教程" class="headerlink" title="视频教程"></a>视频教程</h2><ul><li>网易薄荷视频点赞：<a href="">coming soon…</a></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;软件下载&quot;&gt;&lt;a href=&quot;#软件下载&quot; class=&quot;headerlink&quot; title=&quot;软件下载&quot;&gt;&lt;/a&gt;软件下载&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;按键精灵 2014 ：&lt;a href=&quot;http://www.anjian.com/download.htm&quot; 
+      
+    
+    </summary>
+    
+    
+      <category term="刘力菲" scheme="http://blog.shaib.cn/tags/%E5%88%98%E5%8A%9B%E8%8F%B2/"/>
+    
+      <category term="打投组" scheme="http://blog.shaib.cn/tags/%E6%89%93%E6%8A%95%E7%BB%84/"/>
+    
+  </entry>
+  
+  <entry>
     <title>【Elasticsearch】13.性能测试（esrally 安装和使用）</title>
-    <link href="http://blog.shaib.cn/2018/05/11/Elasticsearch/13.%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%EF%BC%88esrally%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8%EF%BC%89/"/>
-    <id>http://blog.shaib.cn/2018/05/11/Elasticsearch/13.性能测试（esrally安装和使用）/</id>
+    <link href="http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/13.%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%EF%BC%88esrally%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8%EF%BC%89/"/>
+    <id>http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/13.性能测试（esrally安装和使用）/</id>
     <published>2018-05-11T08:54:40.752Z</published>
     <updated>2018-05-11T09:05:20.621Z</updated>
     
@@ -44,8 +70,8 @@
   
   <entry>
     <title>【Elasticsearch】12.集群监控</title>
-    <link href="http://blog.shaib.cn/2018/05/11/Elasticsearch/12.%E9%9B%86%E7%BE%A4%E7%9B%91%E6%8E%A7/"/>
-    <id>http://blog.shaib.cn/2018/05/11/Elasticsearch/12.集群监控/</id>
+    <link href="http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/12.%E9%9B%86%E7%BE%A4%E7%9B%91%E6%8E%A7/"/>
+    <id>http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/12.集群监控/</id>
     <published>2018-05-11T08:54:40.748Z</published>
     <updated>2018-05-11T09:04:54.023Z</updated>
     
@@ -67,8 +93,8 @@
   
   <entry>
     <title>【Elasticsearch】11.线上部署优化</title>
-    <link href="http://blog.shaib.cn/2018/05/11/Elasticsearch/11.%E7%BA%BF%E4%B8%8A%E9%83%A8%E7%BD%B2%E4%BC%98%E5%8C%96/"/>
-    <id>http://blog.shaib.cn/2018/05/11/Elasticsearch/11.线上部署优化/</id>
+    <link href="http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/11.%E7%BA%BF%E4%B8%8A%E9%83%A8%E7%BD%B2%E4%BC%98%E5%8C%96/"/>
+    <id>http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/11.线上部署优化/</id>
     <published>2018-05-11T08:54:40.743Z</published>
     <updated>2018-05-11T09:04:37.949Z</updated>
     
@@ -91,8 +117,8 @@
   
   <entry>
     <title>【Elasticsearch】10.多表 Join (6.x 新类型)</title>
-    <link href="http://blog.shaib.cn/2018/05/11/Elasticsearch/10.%E5%A4%9A%E8%A1%A8Join%EF%BC%886.x%E6%96%B0%E7%B1%BB%E5%9E%8B%EF%BC%89/"/>
-    <id>http://blog.shaib.cn/2018/05/11/Elasticsearch/10.多表Join（6.x新类型）/</id>
+    <link href="http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/10.%E5%A4%9A%E8%A1%A8Join%EF%BC%886.x%E6%96%B0%E7%B1%BB%E5%9E%8B%EF%BC%89/"/>
+    <id>http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/10.多表Join（6.x新类型）/</id>
     <published>2018-05-11T08:54:40.739Z</published>
     <updated>2018-05-11T09:04:28.552Z</updated>
     
@@ -116,8 +142,8 @@
   
   <entry>
     <title>【Elasticsearch】9.深度分页</title>
-    <link href="http://blog.shaib.cn/2018/05/11/Elasticsearch/9.%E6%B7%B1%E5%BA%A6%E5%88%86%E9%A1%B5/"/>
-    <id>http://blog.shaib.cn/2018/05/11/Elasticsearch/9.深度分页/</id>
+    <link href="http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/9.%E6%B7%B1%E5%BA%A6%E5%88%86%E9%A1%B5/"/>
+    <id>http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/9.深度分页/</id>
     <published>2018-05-11T08:54:40.734Z</published>
     <updated>2018-05-11T09:04:28.580Z</updated>
     
@@ -140,8 +166,8 @@
   
   <entry>
     <title>【Elasticsearch】8.聚合</title>
-    <link href="http://blog.shaib.cn/2018/05/11/Elasticsearch/8.%E8%81%9A%E5%90%88/"/>
-    <id>http://blog.shaib.cn/2018/05/11/Elasticsearch/8.聚合/</id>
+    <link href="http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/8.%E8%81%9A%E5%90%88/"/>
+    <id>http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/8.聚合/</id>
     <published>2018-05-11T08:54:40.729Z</published>
     <updated>2018-05-11T09:03:35.489Z</updated>
     
@@ -165,8 +191,8 @@
   
   <entry>
     <title>【Elasticsearch】7.2 自动补全、纠错、拼音搜索</title>
-    <link href="http://blog.shaib.cn/2018/05/11/Elasticsearch/7.2%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8%E3%80%81%E7%BA%A0%E9%94%99%E3%80%81%E6%8B%BC%E9%9F%B3%E6%90%9C%E7%B4%A2/"/>
-    <id>http://blog.shaib.cn/2018/05/11/Elasticsearch/7.2自动补全、纠错、拼音搜索/</id>
+    <link href="http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/7.2%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8%E3%80%81%E7%BA%A0%E9%94%99%E3%80%81%E6%8B%BC%E9%9F%B3%E6%90%9C%E7%B4%A2/"/>
+    <id>http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/7.2自动补全、纠错、拼音搜索/</id>
     <published>2018-05-11T08:54:40.725Z</published>
     <updated>2018-05-11T09:03:58.441Z</updated>
     
@@ -188,8 +214,8 @@
   
   <entry>
     <title>【Elasticsearch】7.1 Java High Level REST Client 客户端</title>
-    <link href="http://blog.shaib.cn/2018/05/11/Elasticsearch/7.1JavaHighLevelRESTClient%E5%AE%A2%E6%88%B7%E7%AB%AF/"/>
-    <id>http://blog.shaib.cn/2018/05/11/Elasticsearch/7.1JavaHighLevelRESTClient客户端/</id>
+    <link href="http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/7.1JavaHighLevelRESTClient%E5%AE%A2%E6%88%B7%E7%AB%AF/"/>
+    <id>http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/7.1JavaHighLevelRESTClient客户端/</id>
     <published>2018-05-11T08:54:40.721Z</published>
     <updated>2018-05-11T09:03:18.957Z</updated>
     
@@ -213,8 +239,8 @@
   
   <entry>
     <title>【Elasticsearch】7.0 全文检索</title>
-    <link href="http://blog.shaib.cn/2018/05/11/Elasticsearch/7.0%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/"/>
-    <id>http://blog.shaib.cn/2018/05/11/Elasticsearch/7.0全文检索/</id>
+    <link href="http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/7.0%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2/"/>
+    <id>http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/7.0全文检索/</id>
     <published>2018-05-11T08:54:40.716Z</published>
     <updated>2018-05-11T09:11:31.567Z</updated>
     
@@ -238,8 +264,8 @@
   
   <entry>
     <title>【Elasticsearch】6.IK-analyzer 教程</title>
-    <link href="http://blog.shaib.cn/2018/05/11/Elasticsearch/6.IK-analyzer%E6%95%99%E7%A8%8B/"/>
-    <id>http://blog.shaib.cn/2018/05/11/Elasticsearch/6.IK-analyzer教程/</id>
+    <link href="http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/6.IK-analyzer%E6%95%99%E7%A8%8B/"/>
+    <id>http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/6.IK-analyzer教程/</id>
     <published>2018-05-11T08:54:40.711Z</published>
     <updated>2018-05-11T09:02:09.575Z</updated>
     
@@ -265,8 +291,8 @@
   
   <entry>
     <title>【Elasticsearch】5.批量操作</title>
-    <link href="http://blog.shaib.cn/2018/05/11/Elasticsearch/5.%E6%89%B9%E9%87%8F%E6%93%8D%E4%BD%9C/"/>
-    <id>http://blog.shaib.cn/2018/05/11/Elasticsearch/5.批量操作/</id>
+    <link href="http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/5.%E6%89%B9%E9%87%8F%E6%93%8D%E4%BD%9C/"/>
+    <id>http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/5.批量操作/</id>
     <published>2018-05-11T08:54:40.706Z</published>
     <updated>2018-05-11T09:01:39.799Z</updated>
     
@@ -291,8 +317,8 @@
   
   <entry>
     <title>【Elasticsearch】4.索引管理、文档操作</title>
-    <link href="http://blog.shaib.cn/2018/05/11/Elasticsearch/4.%E7%B4%A2%E5%BC%95%E7%AE%A1%E7%90%86%E3%80%81%E6%96%87%E6%A1%A3%E6%93%8D%E4%BD%9C/"/>
-    <id>http://blog.shaib.cn/2018/05/11/Elasticsearch/4.索引管理、文档操作/</id>
+    <link href="http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/4.%E7%B4%A2%E5%BC%95%E7%AE%A1%E7%90%86%E3%80%81%E6%96%87%E6%A1%A3%E6%93%8D%E4%BD%9C/"/>
+    <id>http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/4.索引管理、文档操作/</id>
     <published>2018-05-11T08:54:40.701Z</published>
     <updated>2018-05-11T09:01:29.711Z</updated>
     
@@ -316,8 +342,8 @@
   
   <entry>
     <title>【Elasticsearch】3.2 Kibana 安装配置和使用</title>
-    <link href="http://blog.shaib.cn/2018/05/11/Elasticsearch/3.2logstash%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BD%BF%E7%94%A8/"/>
-    <id>http://blog.shaib.cn/2018/05/11/Elasticsearch/3.2logstash安装配置和使用/</id>
+    <link href="http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/3.2logstash%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BD%BF%E7%94%A8/"/>
+    <id>http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/3.2logstash安装配置和使用/</id>
     <published>2018-05-11T08:54:40.696Z</published>
     <updated>2018-05-11T08:58:35.670Z</updated>
     
@@ -344,8 +370,8 @@
   
   <entry>
     <title>【Elasticsearch】3.1 Kibana 安装配置和使用</title>
-    <link href="http://blog.shaib.cn/2018/05/11/Elasticsearch/3.1Kibana%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BD%BF%E7%94%A8/"/>
-    <id>http://blog.shaib.cn/2018/05/11/Elasticsearch/3.1Kibana安装配置和使用/</id>
+    <link href="http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/3.1Kibana%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BD%BF%E7%94%A8/"/>
+    <id>http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/3.1Kibana安装配置和使用/</id>
     <published>2018-05-11T08:54:40.692Z</published>
     <updated>2018-05-11T08:58:09.663Z</updated>
     
@@ -372,8 +398,8 @@
   
   <entry>
     <title>【Elasticsearch】3.0 X-Pack 安装和使用</title>
-    <link href="http://blog.shaib.cn/2018/05/11/Elasticsearch/3.0X-Pack%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/"/>
-    <id>http://blog.shaib.cn/2018/05/11/Elasticsearch/3.0X-Pack安装和使用/</id>
+    <link href="http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/3.0X-Pack%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/"/>
+    <id>http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/3.0X-Pack安装和使用/</id>
     <published>2018-05-11T08:54:40.688Z</published>
     <updated>2018-05-11T09:07:44.147Z</updated>
     
@@ -404,8 +430,8 @@
   
   <entry>
     <title>【Elasticsearch】2.Elasticsearch 安装部署</title>
-    <link href="http://blog.shaib.cn/2018/05/11/Elasticsearch/2.Elasticsearch%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/"/>
-    <id>http://blog.shaib.cn/2018/05/11/Elasticsearch/2.Elasticsearch安装部署/</id>
+    <link href="http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/2.Elasticsearch%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/"/>
+    <id>http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/2.Elasticsearch安装部署/</id>
     <published>2018-05-11T08:54:40.683Z</published>
     <updated>2018-05-11T08:56:28.693Z</updated>
     
@@ -430,8 +456,8 @@
   
   <entry>
     <title>【Elasticsearch】1.Elasticsearch 基础知识</title>
-    <link href="http://blog.shaib.cn/2018/05/11/Elasticsearch/1.Elasticsearch%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"/>
-    <id>http://blog.shaib.cn/2018/05/11/Elasticsearch/1.Elasticsearch基础知识/</id>
+    <link href="http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/1.Elasticsearch%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"/>
+    <id>http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/1.Elasticsearch基础知识/</id>
     <published>2018-05-11T08:54:40.680Z</published>
     <updated>2018-05-11T08:56:25.261Z</updated>
     
@@ -453,8 +479,8 @@
   
   <entry>
     <title>【Elasticsearch】0.Elasticsearch 学习大纲</title>
-    <link href="http://blog.shaib.cn/2018/05/11/Elasticsearch/0.Elasticsearch%E5%AD%A6%E4%B9%A0%E5%A4%A7%E7%BA%B2/"/>
-    <id>http://blog.shaib.cn/2018/05/11/Elasticsearch/0.Elasticsearch学习大纲/</id>
+    <link href="http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/0.Elasticsearch%E5%AD%A6%E4%B9%A0%E5%A4%A7%E7%BA%B2/"/>
+    <id>http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/0.Elasticsearch学习大纲/</id>
     <published>2018-05-11T08:54:40.671Z</published>
     <updated>2018-05-11T09:31:38.688Z</updated>
     
@@ -476,8 +502,8 @@
   
   <entry>
     <title>【FastDFS】2.FastDFS 与 SpringBoot 集成</title>
-    <link href="http://blog.shaib.cn/2018/05/10/FastDFS/%E3%80%90FastDFS%E3%80%912.FastDFS%E4%B8%8ESpringBoot%E9%9B%86%E6%88%90/"/>
-    <id>http://blog.shaib.cn/2018/05/10/FastDFS/【FastDFS】2.FastDFS与SpringBoot集成/</id>
+    <link href="http://blog.shaib.cn/2018/05/10/FastDFS-tutorial/%E3%80%90FastDFS%E3%80%912.FastDFS%E4%B8%8ESpringBoot%E9%9B%86%E6%88%90/"/>
+    <id>http://blog.shaib.cn/2018/05/10/FastDFS-tutorial/【FastDFS】2.FastDFS与SpringBoot集成/</id>
     <published>2018-05-10T12:35:05.261Z</published>
     <updated>2018-05-11T04:02:29.211Z</updated>
     
@@ -499,8 +525,8 @@
   
   <entry>
     <title>【FastDFS】1.FastDFS 安装和部署</title>
-    <link href="http://blog.shaib.cn/2018/05/10/FastDFS/%E3%80%90FastDFS%E3%80%911.FastDFS%E5%AE%89%E8%A3%85%E5%92%8C%E9%83%A8%E7%BD%B2/"/>
-    <id>http://blog.shaib.cn/2018/05/10/FastDFS/【FastDFS】1.FastDFS安装和部署/</id>
+    <link href="http://blog.shaib.cn/2018/05/10/FastDFS-tutorial/%E3%80%90FastDFS%E3%80%911.FastDFS%E5%AE%89%E8%A3%85%E5%92%8C%E9%83%A8%E7%BD%B2/"/>
+    <id>http://blog.shaib.cn/2018/05/10/FastDFS-tutorial/【FastDFS】1.FastDFS安装和部署/</id>
     <published>2018-05-10T06:07:36.285Z</published>
     <updated>2018-05-10T12:22:37.497Z</updated>
     

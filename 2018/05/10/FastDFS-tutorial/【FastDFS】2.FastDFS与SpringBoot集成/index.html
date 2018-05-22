@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>【FastDFS】2.FastDFS 与 SpringBoot 集成 | ShaiB</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="FastDFS">
+    <meta name="description" content="DEMOhttps://github.com/ligohan/springboot-fastdfs-demo 整合到 SpringBoot 项目流程添加 pom 依赖12345&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;com.github.tobato&amp;lt;/groupId&amp;gt;    &amp;lt;artifactId&amp;gt;fastdfs-client&amp;lt;/a">
+<meta name="keywords" content="FastDFS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【FastDFS】2.FastDFS 与 SpringBoot 集成">
+<meta property="og:url" content="http://blog.shaib.cn/2018/05/10/FastDFS-tutorial/【FastDFS】2.FastDFS与SpringBoot集成/index.html">
+<meta property="og:site_name" content="ShaiB">
+<meta property="og:description" content="DEMOhttps://github.com/ligohan/springboot-fastdfs-demo 整合到 SpringBoot 项目流程添加 pom 依赖12345&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;com.github.tobato&amp;lt;/groupId&amp;gt;    &amp;lt;artifactId&amp;gt;fastdfs-client&amp;lt;/a">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11952792-02825f2e9cf951ec.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-05-11T04:02:29.211Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【FastDFS】2.FastDFS 与 SpringBoot 集成">
+<meta name="twitter:description" content="DEMOhttps://github.com/ligohan/springboot-fastdfs-demo 整合到 SpringBoot 项目流程添加 pom 依赖12345&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;com.github.tobato&amp;lt;/groupId&amp;gt;    &amp;lt;artifactId&amp;gt;fastdfs-client&amp;lt;/a">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/11952792-02825f2e9cf951ec.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    
+        <link rel="alternate" type="application/atom+xml" title="ShaiB" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu"  >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">ligohan</h5>
+          <a href="mailto:www.lijun07@qq.com" title="www.lijun07@qq.com" class="mail">www.lijun07@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ligohan" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://weibo.com/hanakawaii" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">【FastDFS】2.FastDFS 与 SpringBoot 集成</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">【FastDFS】2.FastDFS 与 SpringBoot 集成</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-05-10T12:35:05.261Z" itemprop="datePublished" class="page-time">
+  2018-05-10
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#DEMO"><span class="post-toc-number">1.</span> <span class="post-toc-text">DEMO</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#整合到-SpringBoot-项目流程"><span class="post-toc-number">2.</span> <span class="post-toc-text">整合到 SpringBoot 项目流程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#添加-pom-依赖"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">添加 pom 依赖</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#将-Fdfs-配置引入项目"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">将 Fdfs 配置引入项目</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#在spring配置文件中加入fdfs相关配置"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">在spring配置文件中加入fdfs相关配置</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#application-yml"><span class="post-toc-number">2.3.0.1.</span> <span class="post-toc-text">application.yml</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#application-properties"><span class="post-toc-number">2.3.0.2.</span> <span class="post-toc-text">application.properties</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#文件上传下载工具类"><span class="post-toc-number">2.3.0.3.</span> <span class="post-toc-text">文件上传下载工具类</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#控制类"><span class="post-toc-number">2.3.0.4.</span> <span class="post-toc-text">控制类</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#测试"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">测试</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#资料"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">资料</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-FastDFS-tutorial/【FastDFS】2.FastDFS与SpringBoot集成"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">【FastDFS】2.FastDFS 与 SpringBoot 集成</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-05-10 20:35:05" datetime="2018-05-10T12:35:05.261Z"  itemprop="datePublished">2018-05-10</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="DEMO"><a href="#DEMO" class="headerlink" title="DEMO"></a>DEMO</h1><p><a href="https://github.com/ligohan/springboot-fastdfs-demo" target="_blank" rel="noopener">https://github.com/ligohan/springboot-fastdfs-demo</a></p>
+<h1 id="整合到-SpringBoot-项目流程"><a href="#整合到-SpringBoot-项目流程" class="headerlink" title="整合到 SpringBoot 项目流程"></a>整合到 SpringBoot 项目流程</h1><h2 id="添加-pom-依赖"><a href="#添加-pom-依赖" class="headerlink" title="添加 pom 依赖"></a>添加 pom 依赖</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;com.github.tobato&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;fastdfs-client&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.26.2&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="将-Fdfs-配置引入项目"><a href="#将-Fdfs-配置引入项目" class="headerlink" title="将 Fdfs 配置引入项目"></a>将 Fdfs 配置引入项目</h2><ul>
+<li>将注解配置加在springboot的入口类中：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">@Import(FdfsClientConfig.class)</span><br><span class="line">@SpringBootApplication</span><br><span class="line">// 解决 jmx 重复注册 bean 的问题</span><br><span class="line">@EnableMBeanExport(registration = RegistrationPolicy.IGNORE_EXISTING)</span><br><span class="line">public class JingtongApplication &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        SpringApplication.run(JingtongApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="在spring配置文件中加入fdfs相关配置"><a href="#在spring配置文件中加入fdfs相关配置" class="headerlink" title="在spring配置文件中加入fdfs相关配置"></a>在spring配置文件中加入fdfs相关配置</h2><ul>
+<li>根据项目当中使用配置文件类型（.yml和.properties选择其中一个），加入相应的配置。<h4 id="application-yml"><a href="#application-yml" class="headerlink" title="application.yml"></a>application.yml</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">fdfs:</span><br><span class="line">  soTimeout: 1500</span><br><span class="line">  connectTimeout: 600</span><br><span class="line">  thumbImage:             #缩略图生成参数</span><br><span class="line">    width: 150</span><br><span class="line">    height: 150</span><br><span class="line">  trackerList:            #TrackerList参数,支持多个</span><br><span class="line">    - 192.168.0.201:22122</span><br><span class="line">    - 192.168.0.202:22122</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="application-properties"><a href="#application-properties" class="headerlink" title="application.properties"></a>application.properties</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">fdfs.soTimeout=1500</span><br><span class="line">fdfs.connectTimeout=600</span><br><span class="line">fdfs.thumbImage.width=150</span><br><span class="line">fdfs.thumbImage.height=150</span><br><span class="line">fdfs.trackerList[0]=192.168.0.201:22122</span><br><span class="line">fdfs.trackerList[1]=192.168.0.202:22122</span><br></pre></td></tr></table></figure>
+<h4 id="文件上传下载工具类"><a href="#文件上传下载工具类" class="headerlink" title="文件上传下载工具类"></a>文件上传下载工具类</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line">package com.gitnavi.springboot.springbootsimpledemo.util;</span><br><span class="line"></span><br><span class="line">import com.github.tobato.fastdfs.domain.StorePath;</span><br><span class="line">import com.github.tobato.fastdfs.exception.FdfsUnsupportStorePathException;</span><br><span class="line">import com.github.tobato.fastdfs.service.FastFileStorageClient;</span><br><span class="line">import com.gitnavi.springboot.springbootsimpledemo.common.FastDFSConstants;</span><br><span class="line">import lombok.extern.log4j.Log4j2;</span><br><span class="line">import org.apache.commons.io.FilenameUtils;</span><br><span class="line">import org.apache.commons.lang3.StringUtils;</span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line">import org.springframework.web.multipart.MultipartFile;</span><br><span class="line"></span><br><span class="line">import java.io.ByteArrayInputStream;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.nio.charset.Charset;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * Description: FastDFS文件上传下载包装类</span><br><span class="line"> */</span><br><span class="line">@Component</span><br><span class="line">@Log4j2</span><br><span class="line">public class FastDFSClientWrapper &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    private FastFileStorageClient storageClient;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 上传文件</span><br><span class="line">     * @param file 文件对象</span><br><span class="line">     * @return 文件访问地址</span><br><span class="line">     * @throws IOException</span><br><span class="line">     */</span><br><span class="line">    public String uploadFile(MultipartFile file) throws IOException &#123;</span><br><span class="line">        StorePath storePath = storageClient.uploadFile(file.getInputStream(),file.getSize(), FilenameUtils.getExtension(file.getOriginalFilename()),null);</span><br><span class="line">        return getResAccessUrl(storePath);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 将一段字符串生成一个文件上传</span><br><span class="line">     * @param content 文件内容</span><br><span class="line">     * @param fileExtension</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public String uploadFile(String content, String fileExtension) &#123;</span><br><span class="line">        byte[] buff = content.getBytes(Charset.forName(&quot;UTF-8&quot;));</span><br><span class="line">        ByteArrayInputStream stream = new ByteArrayInputStream(buff);</span><br><span class="line">        StorePath storePath = storageClient.uploadFile(stream,buff.length, fileExtension,null);</span><br><span class="line">        return getResAccessUrl(storePath);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 封装图片完整URL地址</span><br><span class="line">    private String getResAccessUrl(StorePath storePath) &#123;</span><br><span class="line">        String fileUrl = FastDFSConstants.HTTP_PRODOCOL + &quot;://&quot; + FastDFSConstants.RES_HOST + &quot;/&quot; + storePath.getFullPath();</span><br><span class="line">        return fileUrl;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 删除文件</span><br><span class="line">     * @param fileUrl 文件访问地址</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public void deleteFile(String fileUrl) &#123;</span><br><span class="line">        if (StringUtils.isEmpty(fileUrl)) &#123;</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        try &#123;</span><br><span class="line">            StorePath storePath = StorePath.praseFromUrl(fileUrl);</span><br><span class="line">            storageClient.deleteFile(storePath.getGroup(), storePath.getPath());</span><br><span class="line">        &#125; catch (FdfsUnsupportStorePathException e) &#123;</span><br><span class="line">            log.warn(e.getMessage());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 除了FastDFSClientWrapper类中用到的api，客户端提供的api还有很多，可根据自身的业务需求，将其它接口也添加到工具类中即可。</span><br><span class="line">    // 上传文件，并添加文件元数据</span><br><span class="line">    //StorePath uploadFile(InputStream inputStream, long fileSize, String fileExtName, Set&lt;MateData&gt; metaDataSet);</span><br><span class="line">    // 获取文件元数据</span><br><span class="line">    //Set&lt;MateData&gt; getMetadata(String groupName, String path);</span><br><span class="line">    // 上传图片并同时生成一个缩略图</span><br><span class="line">    //StorePath uploadImageAndCrtThumbImage(InputStream inputStream, long fileSize, String fileExtName, Set&lt;MateData&gt; metaDataSet);</span><br><span class="line">    // 。。。</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="控制类"><a href="#控制类" class="headerlink" title="控制类"></a>控制类</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">package com.gitnavi.springboot.springbootsimpledemo.controller;</span><br><span class="line"></span><br><span class="line">import com.gitnavi.springboot.springbootsimpledemo.util.FastDFSClientWrapper;</span><br><span class="line">import io.swagger.annotations.Api;</span><br><span class="line">import io.swagger.annotations.ApiImplicitParam;</span><br><span class="line">import io.swagger.annotations.ApiImplicitParams;</span><br><span class="line">import io.swagger.annotations.ApiOperation;</span><br><span class="line">import org.springframework.http.ResponseEntity;</span><br><span class="line">import org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line">import org.springframework.web.bind.annotation.RequestMethod;</span><br><span class="line">import org.springframework.web.bind.annotation.RestController;</span><br><span class="line">import org.springframework.web.multipart.MultipartFile;</span><br><span class="line"></span><br><span class="line">import javax.annotation.Resource;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.util.HashMap;</span><br><span class="line">import java.util.Map;</span><br><span class="line"></span><br><span class="line">@Api(value = &quot;FastDFSController RESTful&quot;, description = &quot;上传文件 REST API&quot;)</span><br><span class="line">@RestController</span><br><span class="line">@RequestMapping(&quot;/api/fastdfs&quot;)</span><br><span class="line">public class FastDFSController &#123;</span><br><span class="line"></span><br><span class="line">    @Resource</span><br><span class="line">    private FastDFSClientWrapper dfsClient;</span><br><span class="line"></span><br><span class="line">    @ApiOperation(value = &quot;上传文件&quot;, notes = &quot;上传文件&quot;)</span><br><span class="line">    @ApiImplicitParams(&#123;</span><br><span class="line">            @ApiImplicitParam(name = &quot;file&quot;, value = &quot;文件本体&quot;, paramType = &quot;body&quot;),</span><br><span class="line">    &#125;)</span><br><span class="line">    @RequestMapping(value = &quot;/upload&quot;, method = RequestMethod.POST)</span><br><span class="line">    public ResponseEntity&lt;Map&lt;String, Object&gt;&gt; upload(MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws Exception &#123;</span><br><span class="line">        Map&lt;String, Object&gt; map = new HashMap&lt;&gt;();</span><br><span class="line">        String fileUrl = dfsClient.uploadFile(file);</span><br><span class="line">        map.put(&quot;file_url&quot;, fileUrl);</span><br><span class="line">        return ResponseEntity.ok(map);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://upload-images.jianshu.io/upload_images/11952792-02825f2e9cf951ec.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ul>
+<li><a href="https://blog.csdn.net/xyang81/article/details/52850667" target="_blank" rel="noopener">FastDFS 与 Springboot 集成</a></li>
+<li><a href="https://github.com/tobato/FastDFS_Client" target="_blank" rel="noopener">github - tobato/FastDFS_Client</a></li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2018-05-11T04:02:29.211Z" itemprop="dateUpdated">2018-05-11 12:02:29</time>
+</span><br>
+
+
+        
+        微博：<a href="https://weibo.com/hanakawaii">@俊俊俊俊__</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://blog.shaib.cn">
+            <img src="/img/avatar.jpg" alt="ligohan">
+            ligohan
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/FastDFS/">FastDFS</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.shaib.cn/2018/05/10/FastDFS-tutorial/【FastDFS】2.FastDFS与SpringBoot集成/&title=《【FastDFS】2.FastDFS 与 SpringBoot 集成》 — ShaiB&pic=http://blog.shaib.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.shaib.cn/2018/05/10/FastDFS-tutorial/【FastDFS】2.FastDFS与SpringBoot集成/&title=《【FastDFS】2.FastDFS 与 SpringBoot 集成》 — ShaiB&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.shaib.cn/2018/05/10/FastDFS-tutorial/【FastDFS】2.FastDFS与SpringBoot集成/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《【FastDFS】2.FastDFS 与 SpringBoot 集成》 — ShaiB&url=http://blog.shaib.cn/2018/05/10/FastDFS-tutorial/【FastDFS】2.FastDFS与SpringBoot集成/&via=http://blog.shaib.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.shaib.cn/2018/05/10/FastDFS-tutorial/【FastDFS】2.FastDFS与SpringBoot集成/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/05/11/Elasticsearch-tutorial/0.Elasticsearch学习大纲/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">【Elasticsearch】0.Elasticsearch 学习大纲</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/05/10/FastDFS-tutorial/【FastDFS】1.FastDFS安装和部署/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">【FastDFS】1.FastDFS 安装和部署</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'ligohan',
+            repo: 'ligohan.github.io',
+            oauth: {
+                client_id: 'fa0038813388307a4f56',
+                client_secret: 'fd095a020d30235d15599824df9785d150d6fcd0',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>ligohan &copy; 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.shaib.cn/2018/05/10/FastDFS-tutorial/【FastDFS】2.FastDFS与SpringBoot集成/&title=《【FastDFS】2.FastDFS 与 SpringBoot 集成》 — ShaiB&pic=http://blog.shaib.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.shaib.cn/2018/05/10/FastDFS-tutorial/【FastDFS】2.FastDFS与SpringBoot集成/&title=《【FastDFS】2.FastDFS 与 SpringBoot 集成》 — ShaiB&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.shaib.cn/2018/05/10/FastDFS-tutorial/【FastDFS】2.FastDFS与SpringBoot集成/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《【FastDFS】2.FastDFS 与 SpringBoot 集成》 — ShaiB&url=http://blog.shaib.cn/2018/05/10/FastDFS-tutorial/【FastDFS】2.FastDFS与SpringBoot集成/&via=http://blog.shaib.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.shaib.cn/2018/05/10/FastDFS-tutorial/【FastDFS】2.FastDFS与SpringBoot集成/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADK0lEQVR42u3ay67qMAwFUP7/p7nSGV0JlW7bQSJhdVRBH15hYGL78YiP59/x//nrJ6/Xv35ePa6evPYt2NjY2Luzn2+PBJbfexX01V35e3MLNjY29qnsPGl9IqA8LVVT6eXn2NjY2D/Jfv9/PufNQ0/OsbGxsbHz4N6ntPwJvQITNjY2NnY1zeQbkqt7J4mwt2XCxsbGPpvda/R+5/nH+9vY2NjYX8Z+Fo95mT5PPMnITlOBjY2NfRA7f3R12LH3zOq2YdJswMbGxj6JXQ23OrKTl5mSu/Ifo7BFwcbGxt6cnbwmafG+f02ebHotgfJPiI2NjX0EOx+7qbZv8xGfatDVtvFlLQ0bGxv7CHaeAHqjNmsbtL2BoZu8jY2Njb05e9JYXVWsryaqvPFc7ipgY2Njb8ielNer6a23oHnhKR82wsbGxj6PXS2y9zYGqxrAeaM6WgJsbGzsg9jVQk+vETtJP6uux8bGxj6J3RuymSewfFmrzeaoOYGNjY19EHttQkpKRdVl6pWcChUkbGxs7M3Zk8ST4Cdt3UmB6WaBsLGxsQ9iV//0V88nVa617eebfgg2Njb25ux5Wso3Ib1hzV6L95Ef2NjY2EezC3/uF4W1KkEW3ouNjY29LXtSxJkM1vTSTJ4gb96IjY2NfTQ7L+JXw0pGgnJ8c0Anr5xhY2Njb8KeDMSsHbhJlnXeYL7pjWBjY2Nvy86TUz64Uw0uf/4kpT16ORkbGxv7i9m9pJKXkCZblCq7sOHBxsbGPohdbeL2Wgh5iGsbwzffYmNjYx/BXlVI6n1bXeg8wpu7sLGxsQ9ir+otTILrFaSqrWJsbGzsU9nJ6+dt11GaaW1Rbgpb2NjY2MexJ4X4vJyU4xNwtSy1uP+AjY2N/WXs/Og9IQ8xT2b58kVjl9jY2NjbsnvJIA8oH/GZX5lvfrCxsbHPY1cHKKvX53dNklm1tYCNjY19Hrv3d7/KKwc3LipdLhk2Njb2T7KT1/caAJ/Y2NxEjo2Njf3D7KTFWw1lMr7TuxcbGxv7PHa+YegxkiWuFrN6sWFjY2Ofx+41entL1mvN9hYdGxsb+wfY/wC1aqvPmCIAmQAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = 'ShaiB';
+            clearTimeout(titleTime);
+        } else {
+            document.title = 'ShaiB';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

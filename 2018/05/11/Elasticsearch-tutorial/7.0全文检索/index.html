@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>【Elasticsearch】7.0 全文检索 | ShaiB</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Elasticsearch">
+    <meta name="description" content="关于DSL es中的查询请求有两种方式: 一种是简易版的查询，像传递URL参数一样去传递查询语句 例如 /library/books/_search?q123456	- 一种是使用JSON完整的请求体，叫做**结构化查询（DSL）**。		- 由于DSL查询更为直观也更为简易，所以大都使用这种方式。		- DSL查询是POST过去一个json，由于post的请求是json格式的，所以存在很多灵活性">
+<meta name="keywords" content="Elasticsearch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Elasticsearch】7.0 全文检索">
+<meta property="og:url" content="http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/7.0全文检索/index.html">
+<meta property="og:site_name" content="ShaiB">
+<meta property="og:description" content="关于DSL es中的查询请求有两种方式: 一种是简易版的查询，像传递URL参数一样去传递查询语句 例如 /library/books/_search?q123456	- 一种是使用JSON完整的请求体，叫做**结构化查询（DSL）**。		- 由于DSL查询更为直观也更为简易，所以大都使用这种方式。		- DSL查询是POST过去一个json，由于post的请求是json格式的，所以存在很多灵活性">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-05-11T09:11:31.567Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【Elasticsearch】7.0 全文检索">
+<meta name="twitter:description" content="关于DSL es中的查询请求有两种方式: 一种是简易版的查询，像传递URL参数一样去传递查询语句 例如 /library/books/_search?q123456	- 一种是使用JSON完整的请求体，叫做**结构化查询（DSL）**。		- 由于DSL查询更为直观也更为简易，所以大都使用这种方式。		- DSL查询是POST过去一个json，由于post的请求是json格式的，所以存在很多灵活性">
+    
+        <link rel="alternate" type="application/atom+xml" title="ShaiB" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu"  >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">ligohan</h5>
+          <a href="mailto:www.lijun07@qq.com" title="www.lijun07@qq.com" class="mail">www.lijun07@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ligohan" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://weibo.com/hanakawaii" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">【Elasticsearch】7.0 全文检索</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">【Elasticsearch】7.0 全文检索</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-05-11T08:54:40.716Z" itemprop="datePublished" class="page-time">
+  2018-05-11
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#关于DSL"><span class="post-toc-number">1.</span> <span class="post-toc-text">关于DSL</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考资料"><span class="post-toc-number">2.</span> <span class="post-toc-text">参考资料</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-Elasticsearch-tutorial/7.0全文检索"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">【Elasticsearch】7.0 全文检索</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-05-11 16:54:40" datetime="2018-05-11T08:54:40.716Z"  itemprop="datePublished">2018-05-11</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="关于DSL"><a href="#关于DSL" class="headerlink" title="关于DSL"></a>关于DSL</h2><ul>
+<li>es中的查询请求有两种方式:<ul>
+<li>一种是简易版的查询，像传递URL参数一样去传递查询语句<ul>
+<li>例如 <figure class="highlight plain"><figcaption><span>/library/books/_search?q</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">	- 一种是使用JSON完整的请求体，叫做**结构化查询（DSL）**。</span><br><span class="line">		- 由于DSL查询更为直观也更为简易，所以大都使用这种方式。</span><br><span class="line">		- DSL查询是POST过去一个json，由于post的请求是json格式的，所以存在很多灵活性，也有很多形式。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## DSL语句校验</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>GET /cars/transactions/_validate/query?explain<br>{<br>  “query”: {<br>    “match”: {<br>      “make”: “honda”<br>    }<br>  }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## match_all 查询所有</span><br><span class="line">- 常用用法</span><br></pre></td></tr></table></figure></p>
+<p>GET /cars/transactions/_search<br>{<br>    “query”: {<br>        “match_all”: {}<br>    }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- 指定查询字段</span><br></pre></td></tr></table></figure></p>
+<p>GET /cars/transactions/_search<br>{<br>      “query”: {<br>        “match_all”: {}<br>      },<br>      “_source”: [<br>        “product_name”,<br>        “price”<br>      ]<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## sort 排序</span><br></pre></td></tr></table></figure></p>
+<p>GET /cars/transactions/_search<br>{<br>      “query”: {<br>        “match_all”: {}<br>      },<br>      “sort”: [<br>        {<br>          “price”: “desc” ## 降序<br>        }<br>      ]<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">	</span><br><span class="line"></span><br><span class="line">&gt; - 排序最好别用到字符串字段上。因为字符串字段会进行分词，Elasticsearch 默认是拿分词后的某个词去进行排序，排序结果往往跟我们想象的不一样。</span><br><span class="line">&gt; - 解决这个办法是在设置 mapping 的时候，多个这个字段设置一个 fields raw，让这个不进行分词，然后查询排序的时候使用这个 raw</span><br><span class="line">&gt; - 具体看这里：https://www.elastic.co/guide/cn/elasticsearch/guide/current/multi-fields.html</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 分页查询</span><br></pre></td></tr></table></figure></p>
+<p>GET /cars/transactions/_search<br>{<br>      “query”: {<br>        “match_all”: {}<br>      },<br>      “from”: 0, ## 从第几个开始查，最开始是 0<br>      “size”: 1  ## 要查几个结果<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## range</span><br><span class="line">- 用于查询数值、时间</span><br></pre></td></tr></table></figure></p>
+<p>GET /cars/transactions/_search<br>{<br>      “query”: {<br>        “range”: {<br>          “price”: {<br>            “gte”: 30000.00 ## 大于或等于30000<br>          }<br>        }<br>      }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- gte：大于或等于</span><br><span class="line">- gt：大于</span><br><span class="line">- lte：小于或等于</span><br><span class="line">- lt：小于</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## term</span><br><span class="line">- term是代表完全匹配，即**不进行分词器分析**，文档中必须包含整个搜索的词汇</span><br></pre></td></tr></table></figure></p>
+<p>GET /cars/transactions/_search<br>{<br>    “query”: {<br>        “term”: {<br>            “color”: “red”  ## 查询的field和关键字<br>         }<br>    }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- **使用term要确定的是这个字段是否“被分析”(analyzed)，默认的字符串是被分析的**，例如：</span><br><span class="line">- 设置mapping为：</span><br></pre></td></tr></table></figure></p>
+<pre><code>PUT my_index
+{
+  &quot;mappings&quot;: {
+    &quot;my_type&quot;: {
+      &quot;properties&quot;: {
+        &quot;full_text&quot;: {
+          &quot;type&quot;:  &quot;text&quot;
+        },
+        &quot;exact_value&quot;: {
+          &quot;type&quot;:  &quot;keyword&quot;
+        }
+      }
+    }
+  }
+}
+
+PUT my_index/my_type/1
+{
+  &quot;full_text&quot;:   &quot;Quick Foxes!&quot;,
+  &quot;exact_value&quot;: &quot;Quick Foxes!&quot;  
+}
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- full_text: 指定类型为text，会被standard analyzer分词为如下terms [quick,foxes],存入倒排索引</span><br><span class="line">- exact_value: 指定类型为keyword，不会被分词，只有[Quick Foxes!]这一个term会被存入倒排索引</span><br><span class="line">- 当有以下请求：</span><br></pre></td></tr></table></figure>
+
+GET my_index/my_type/_search
+{
+  &quot;query&quot;: {
+    &quot;term&quot;: {
+      &quot;exact_value&quot;: &quot;Quick Foxes!&quot;
+    }
+  }
+}
+
+// 可以请求出数据，因为exact_value字段没有被分析，可以完全匹配
+
+GET my_index/my_type/_search
+{
+  &quot;query&quot;: {
+    &quot;term&quot;: {
+      &quot;full_text&quot;: &quot;Quick Foxes!&quot;
+    }
+  }
+}
+
+// 请求不出数据，因为full_text分词后的结果中没有[Quick Foxes!]这个分词
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- 因此需要使用term的话，在自己设置 mapping 的时候有些不分词的字段最好设置不分词</span><br><span class="line">- Elasticsearch 5.X 之后给 text 类型的分词字段，又默认新增了一个子字段 keyword，这个字段的类型就是 keyword，是不分词的，默认保留 256 个字符。假设 product_name 是分词字段，那有一个 product_name.keyword 是不分词的字段，也可以用这个子字段来做完全匹配查询</span><br></pre></td></tr></table></figure>
+
+PUT my_index
+{
+  &quot;mappings&quot;: {
+    &quot;my_type&quot;: {
+      &quot;properties&quot;: {
+        &quot;full_text&quot;: {
+          &quot;type&quot;:  &quot;text&quot;,
+           &quot;fields&quot;: {
+            &quot;keyword&quot;: { 
+              &quot;type&quot;: &quot;keyword&quot;
+            }
+          }
+        },
+        &quot;exact_value&quot;: {
+          &quot;type&quot;:  &quot;keyword&quot;
+        }
+      }
+    }
+  }
+}
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">## match</span><br><span class="line">- 查询的字段内容是进行分词处理的，只要分词的单词结果中，在数据中有满足任意的分词结果都会被查询出来</span><br></pre></td></tr></table></figure>
+</code></pre><p>GET /cars/transactions/_search<br>{<br>      “query”: {<br>            “match”: {<br>                “make” : {<br>                    “query” : “bmw”<br>                }<br>            }<br>      }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- 上面的查询匹配就会进行分词，比如&quot;宝马多少马力&quot;会被分词为&quot;宝马 多少 马力&quot;，所有有关&quot;宝马 多少 马力&quot;，那么所有包含这三个词中的一个或多个的文档就会被搜索出来</span><br><span class="line">- 根据lucene的评分机制(TF/IDF)来进行评分</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">- operator：</span><br><span class="line">	- or：默认，任意一个满足分词就可以，如上方例子</span><br><span class="line">	- and：必须满足分词结果中所有的词，如下方例子</span><br></pre></td></tr></table></figure></p>
+<p>GET /cars/transactions/_search<br>{<br>      “query”: {<br>            “match”: {<br>                “make” : {<br>                    “query” : “bmw honda”,<br>                    “operator”: “or”<br>                }<br>            }<br>      }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- minimum_should_match</span><br><span class="line">	- 必须满足分词结果中百分比的词，比如搜索词被分成这样子：java 程序员 书 推荐，这里就有 4 个词，假如要求 50% 命中其中两个词就返回，我们可以这样</span><br></pre></td></tr></table></figure></p>
+<p>GET /cars/transactions/_search<br>{<br>      “query”: {<br>        “match”: {<br>          “make”: {<br>            “query”: “bmw honda”,<br>            “minimum_should_match”: “50%”<br>          }<br>        }<br>      }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## multi_match </span><br><span class="line">- 如果我们希望两个字段进行匹配，其中一个字段有这个文档就满足的话，使用multi_match</span><br></pre></td></tr></table></figure></p>
+<p>GET /cars/transactions/_search<br>{<br>      “query”: {<br>        “multi_match”: {<br>            “query” : “red”,<br>            “type”: “best_fields”,<br>            “fields” : [“make”, “color”]<br>        }<br>      }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- type：</span><br><span class="line">	- best_fields：完全匹配的文档占的评分比较高</span><br><span class="line">	- most_fields：越多字段匹配的文档评分越高</span><br><span class="line">	- cross_fields：词条的分词词汇是分配到不同字段中的</span><br><span class="line"></span><br><span class="line">## 模糊查询</span><br><span class="line">- 在 match 查询使用</span><br></pre></td></tr></table></figure></p>
+<p>GET my_index/my_type/_search<br>{<br>    “query”: {<br>        “match”: {<br>             “full_text”:{<br>                 “query”: “Quic”,<br>                 “fuzziness”: “AUTO”<br>             }<br>       }<br>    }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- 在 multi_match 使用</span><br></pre></td></tr></table></figure></p>
+<p>GET /my_index/my_type/_search<br>{<br>    “query”: {<br>        “multi_match”: {<br>              “fields”:  [ “full_text” ],<br>              “query”:     “Quic”,<br>              “fuzziness”: “AUTO”<br>        }<br>    }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## match_phrase 不分词查询</span><br><span class="line">- 对查询词不进行分词，必须完全匹配查询词才可以作为结果显示</span><br></pre></td></tr></table></figure></p>
+<p>GET my_index/my_type/_search<br>{<br>    “query”: {<br>        “match_phrase”: {<br>            “exact_value” : {<br>                “query” : “Quick Foxes!”<br>            }<br>        }<br>    }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#### slop参数：</span><br><span class="line">- 告诉match_phrase查询词条能够相隔多远时仍然将文档视为匹配</span><br><span class="line">- 相隔多远的意思是，你需要移动一个词条多少次来让查询和文档匹配</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">- 为了让查询quick fox能够匹配含有quick brown fox的文档，我们需要slop的值为1：</span><br></pre></td></tr></table></figure></p>
+<pre><code>            Pos 1         Pos 2         Pos 3
+-----------------------------------------------
+Doc:        quick         brown         fox
+-----------------------------------------------
+Query:      quick         fox
+Slop 1:     quick                 ↳     fox
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- 为了让fox quick查询能够匹配我们的文档，需要slop的值为3：</span><br></pre></td></tr></table></figure>
+
+            Pos 1         Pos 2         Pos 3
+-----------------------------------------------
+Doc:        quick         brown         fox
+-----------------------------------------------
+Query:      fox           quick
+Slop 1:     fox|quick  ↵  
+Slop 2:     quick      ↳  fox
+Slop 3:     quick                 ↳     fox
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> </span><br></pre></td></tr></table></figure>
+
+GET my_index/my_type/_search
+{
+  &quot;query&quot;: {
+        &quot;match_phrase&quot;: {
+            &quot;full_text&quot; : {
+                &quot;query&quot; : &quot;foxes quick&quot;,
+                &quot;slop&quot; : 3
+            }
+        }
+  }
+}
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- 尽管在使用了slop的短语匹配中，所有的单词都需要出现，但是单词的出现顺序可以不同。如果slop的值足够大，那么单词的顺序可以是任意的</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## bool 联合查询</span><br><span class="line">- must: 文档必须完全匹配条件</span><br><span class="line">- should: should下面会带一个以上的条件，至少满足一个条件，这个文档就符合should</span><br><span class="line">	- 如果没有 must 条件，那么 should 中必须至少匹配一个。我们也还可以通过 minimum_should_match 来限制它匹配更多个。</span><br><span class="line">- must_not: 文档必须不匹配条件</span><br></pre></td></tr></table></figure>
+</code></pre><p>GET /cars/transactions/_search<br>{<br>    “query”: {<br>        “bool”: {<br>            “must”: {<br>                “term”: {<br>                    “color”: “red”<br>                }<br>            },<br>            “must_not”: {<br>                “term”: {<br>                    “make”: “bmw”<br>                }<br>            },<br>            “filter”: {<br>                “range”: {<br>                    “price”: {<br>                        “gt”: 10000<br>                    }<br>                }<br>            }<br>        }<br>    }<br>}<br><code>`</code></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="https://elasticsearch.cn/article/142" target="_blank" rel="noopener">Elasticsearch Suggester详解</a></li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2018-05-11T09:11:31.567Z" itemprop="dateUpdated">2018-05-11 17:11:31</time>
+</span><br>
+
+
+        
+        微博：<a href="https://weibo.com/hanakawaii">@俊俊俊俊__</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://blog.shaib.cn">
+            <img src="/img/avatar.jpg" alt="ligohan">
+            ligohan
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Elasticsearch/">Elasticsearch</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/7.0全文检索/&title=《【Elasticsearch】7.0 全文检索》 — ShaiB&pic=http://blog.shaib.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/7.0全文检索/&title=《【Elasticsearch】7.0 全文检索》 — ShaiB&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/7.0全文检索/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《【Elasticsearch】7.0 全文检索》 — ShaiB&url=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/7.0全文检索/&via=http://blog.shaib.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/7.0全文检索/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/05/11/Elasticsearch-tutorial/7.1JavaHighLevelRESTClient客户端/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">【Elasticsearch】7.1 Java High Level REST Client 客户端</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/05/11/Elasticsearch-tutorial/6.IK-analyzer教程/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">【Elasticsearch】6.IK-analyzer 教程</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'ligohan',
+            repo: 'ligohan.github.io',
+            oauth: {
+                client_id: 'fa0038813388307a4f56',
+                client_secret: 'fd095a020d30235d15599824df9785d150d6fcd0',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>ligohan &copy; 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/7.0全文检索/&title=《【Elasticsearch】7.0 全文检索》 — ShaiB&pic=http://blog.shaib.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/7.0全文检索/&title=《【Elasticsearch】7.0 全文检索》 — ShaiB&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/7.0全文检索/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《【Elasticsearch】7.0 全文检索》 — ShaiB&url=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/7.0全文检索/&via=http://blog.shaib.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/7.0全文检索/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACx0lEQVR42u3awYrjMBAE0Pn/n569LgQnVd3SEpbnUwgZW08DUrtaPz/x9fvX9f6b18+v98nvkNzzwIWHh4e3GPrr9fSb93dIpuZp0LPxPD0dDw8P7x4vWcTzwT3B8i2n/c3j93h4eHhfwNss9/WyjoeHh/cf8d4v/cmg85J6Fnbg4eHh3eYlL/9tANF+TraHi1kLHh4eXle1Rl2k7/l8pb+Hh4eHt+6qz2KC5Cnt0H9HFx4eHt4NXr7gzkrn/FhV0jYbjhMPDw/vKC9/vd+86rdhRz6GD7EFHh4e3jVevgQn7a5NGd0GvkXrCw8PD+8CLy+aN9+cDS8+sPHw8PAu8DZhRMtoS/Z80oveHR4eHt6ad2oo+YDaqZxN6GN/Dw8PD+8QL3l8UgTPgow8pKi3Cjw8PLwLvNkC/f6m+WPaeCIHrwpuPDw8vLe8U0cBNkHGrECPNhU8PDy8C7z2QEB01CmAtccU8nji8X+Ih4eHd4jXFrKbuKENL2bl9TBBwcPDw5v3nvomU7y15AFuG9cWJT4eHh7emrdaZOOpyRmzsPhxovHw8PD+CW8WoSaPb8vo/NDV45jx8PDwLvBOFb6z6GGVPccRCR4eHt5ZXrLstgPKr7YBVh9owMPDw7vMmzW92pbYZoPJN5sow8DDw8Mb8Q50zEpkC84bb8M2GB4eHt4F3qzN37a42sNYRTSMh4eHd423D0/bpX826PaJeHh4ePd47ct/W4jnm0c+udFv8PDw8I7yZi2rtryeVbl5++0RjIeHh3eB1zac8thi0wwbNro2Fx4eHl7J2xyNSsrlfDpmR75WhTUeHh7egte2o9oDW/nEzY5hPY4BDw8P7wt4bRndtq/agwUf7oOHh4f3Nbx8iPsII+9nHSip8fDw8GJefvx09ldt1DubrMeNAQ8PD+8ob/aS34a/s0Nabfi76u/h4eHhfeb9AZYTVLnkt0+fAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = 'ShaiB';
+            clearTimeout(titleTime);
+        } else {
+            document.title = 'ShaiB';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

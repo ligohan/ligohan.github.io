@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>【Elasticsearch】1.Elasticsearch 基础知识 | ShaiB</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Elasticsearch">
+    <meta name="description" content="Elasticsearch 是什么Elasticsearch 定义 官网： 一个分布式的实时文档存储，每个字段都可以被索引与搜索 一个分布式实时分析搜索引擎 能胜任上百个服务节点的扩展，并支持 PB 级别的结构化或者非结构化数据   百度百科：ElasticSearch 是一个基于 Lucene 的搜索服务器。它提供了一个分布式多用户能力的全文搜索引擎，基于 RESTful web 口，通过 HT">
+<meta name="keywords" content="Elasticsearch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Elasticsearch】1.Elasticsearch 基础知识">
+<meta property="og:url" content="http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/1.Elasticsearch基础知识/index.html">
+<meta property="og:site_name" content="ShaiB">
+<meta property="og:description" content="Elasticsearch 是什么Elasticsearch 定义 官网： 一个分布式的实时文档存储，每个字段都可以被索引与搜索 一个分布式实时分析搜索引擎 能胜任上百个服务节点的扩展，并支持 PB 级别的结构化或者非结构化数据   百度百科：ElasticSearch 是一个基于 Lucene 的搜索服务器。它提供了一个分布式多用户能力的全文搜索引擎，基于 RESTful web 口，通过 HT">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11952792-12f3dcad36697a41.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-05-11T08:56:25.261Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【Elasticsearch】1.Elasticsearch 基础知识">
+<meta name="twitter:description" content="Elasticsearch 是什么Elasticsearch 定义 官网： 一个分布式的实时文档存储，每个字段都可以被索引与搜索 一个分布式实时分析搜索引擎 能胜任上百个服务节点的扩展，并支持 PB 级别的结构化或者非结构化数据   百度百科：ElasticSearch 是一个基于 Lucene 的搜索服务器。它提供了一个分布式多用户能力的全文搜索引擎，基于 RESTful web 口，通过 HT">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/11952792-12f3dcad36697a41.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    
+        <link rel="alternate" type="application/atom+xml" title="ShaiB" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu"  >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">ligohan</h5>
+          <a href="mailto:www.lijun07@qq.com" title="www.lijun07@qq.com" class="mail">www.lijun07@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ligohan" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://weibo.com/hanakawaii" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">【Elasticsearch】1.Elasticsearch 基础知识</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">【Elasticsearch】1.Elasticsearch 基础知识</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-05-11T08:54:40.680Z" itemprop="datePublished" class="page-time">
+  2018-05-11
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Elasticsearch-是什么"><span class="post-toc-number">1.</span> <span class="post-toc-text">Elasticsearch 是什么</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Elasticsearch-定义"><span class="post-toc-number">1.0.1.</span> <span class="post-toc-text">Elasticsearch 定义</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Lucene-介绍"><span class="post-toc-number">1.0.2.</span> <span class="post-toc-text">Lucene 介绍</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Elasticsearch-历史"><span class="post-toc-number">1.0.3.</span> <span class="post-toc-text">Elasticsearch 历史</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#国内外案例："><span class="post-toc-number">1.0.4.</span> <span class="post-toc-text">国内外案例：</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#术语解释"><span class="post-toc-number">2.</span> <span class="post-toc-text">术语解释</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#文档元数据"><span class="post-toc-number">3.</span> <span class="post-toc-text">文档元数据</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#集群-cluster"><span class="post-toc-number">4.</span> <span class="post-toc-text">集群 cluster</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#分布式"><span class="post-toc-number">5.</span> <span class="post-toc-text">分布式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#搜索"><span class="post-toc-number">6.</span> <span class="post-toc-text">搜索</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#基于-http-协议"><span class="post-toc-number">7.</span> <span class="post-toc-text">基于 http 协议</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#准实时（-near-real-time-）"><span class="post-toc-number">8.</span> <span class="post-toc-text">准实时（ near real-time ）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#资料"><span class="post-toc-number">9.</span> <span class="post-toc-text">资料</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-Elasticsearch-tutorial/1.Elasticsearch基础知识"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">【Elasticsearch】1.Elasticsearch 基础知识</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-05-11 16:54:40" datetime="2018-05-11T08:54:40.680Z"  itemprop="datePublished">2018-05-11</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="Elasticsearch-是什么"><a href="#Elasticsearch-是什么" class="headerlink" title="Elasticsearch 是什么"></a>Elasticsearch 是什么</h2><h4 id="Elasticsearch-定义"><a href="#Elasticsearch-定义" class="headerlink" title="Elasticsearch 定义"></a>Elasticsearch 定义</h4><ul>
+<li>官网：<ul>
+<li>一个分布式的实时文档存储，每个字段都可以被索引与搜索</li>
+<li>一个分布式实时分析搜索引擎</li>
+<li>能胜任上百个服务节点的扩展，并支持 PB 级别的结构化或者非结构化数据</li>
+</ul>
+</li>
+<li>百度百科：ElasticSearch 是一个基于 Lucene 的搜索服务器。它提供了一个分布式多用户能力的全文搜索引擎，基于 RESTful web 口，通过 HTTP 使用 JSON 进行数据索引。Elasticsearch 是用 Java 开发的，并作为 Apache 许可条款下的开放源码发布，是当前流行的企业级搜索引擎。设计用于云计算中，能够达到实时搜索，稳定，可靠，快速，安装使用方便。</li>
+<li>维基百科：企业搜索平台，目的是组织数据并使其易于获取。</li>
+</ul>
+<h4 id="Lucene-介绍"><a href="#Lucene-介绍" class="headerlink" title="Lucene 介绍"></a>Lucene 介绍</h4><ul>
+<li>维基百科：Lucene 不是一个完整的全文检索引擎，而是一个全文检索引擎的架构，提供了完整的查询引擎和索引引擎，部分文本分析引擎。Lucene的目的是为软件开发人员提供一个简单易用的工具包，以方便的在目标系统中实现全文检索的功能，或者是以此为基础建立起完整的全文检索引擎。在Java开发环境里Lucene是一个成熟的免费开放源代码工具；就其本身而论，Lucene是现在并且是这几年，最受欢迎的免费Java信息检索程序库。</li>
+</ul>
+<h4 id="Elasticsearch-历史"><a href="#Elasticsearch-历史" class="headerlink" title="Elasticsearch 历史"></a>Elasticsearch 历史</h4><ul>
+<li><a href="https://www.jianshu.com/p/3d43616999d9" target="_blank" rel="noopener">Elasticsearch 的由来</a></li>
+</ul>
+<h4 id="国内外案例："><a href="#国内外案例：" class="headerlink" title="国内外案例："></a>国内外案例：</h4><ul>
+<li><strong>GitHub</strong> 用它来搜索达20TB的海量数据，其中包括13亿文件和1300亿行的代码</li>
+<li><strong>SoundCloud</strong> 使用它为1.8亿用户实时提供精确的音乐搜索服务</li>
+<li><strong>百度</strong> 目前广泛使用 ElasticSearch 进行文本数据分析，覆盖百度内部20多个业务线，单集群最大100台机器，200个ES节点，每天导入大于30TB的数据。</li>
+</ul>
+<h2 id="术语解释"><a href="#术语解释" class="headerlink" title="术语解释"></a>术语解释</h2><ul>
+<li><strong>索引 index</strong>：保存相关数据的地方，实际上是指向一个或者多个物理<strong>分片</strong>的逻辑命名空间</li>
+<li><strong>分片 shards</strong>：一个底层的工作单元 ，它仅保存了全部数据中的一部分。一个分片是一个 Lucene 的实例，本身就是一个完整的搜索引擎。我们的文档被存储和索引到分片内，但是应用程序是直接与索引而不是与分片进行交互<ul>
+<li>主分片：索引内任意一个文档都归属于一个主分片，技术上来说最大能够存储 Integer.MAX_VALUE - 128 个文档</li>
+<li>副本分片：只是一个主分片的拷贝。作为硬件故障时保护数据不丢失的冗余备份，并为搜索和返回文档等读操作提供服务</li>
+</ul>
+</li>
+<li><strong><a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/mapping.html" target="_blank" rel="noopener">类型 type</a></strong>：表示一类相似的文档，由 名称 和 映射 组成</li>
+<li><strong>文档 document</strong>：被序列化成 JSON 并存储到 Elasticsearch 中的对象，有指定的唯一的ID</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://upload-images.jianshu.io/upload_images/11952792-12f3dcad36697a41.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<h2 id="文档元数据"><a href="#文档元数据" class="headerlink" title="文档元数据"></a>文档元数据</h2><ul>
+<li>_index：表示文档在哪存放，即索引。因共同的特性被分组到一起的文档集合</li>
+<li>_type：文档表示的对象类别，即类型。一类相似的文档</li>
+<li>_id：文档唯一标识，当它和 _index 以及 _type 组合就可以唯一确定 Elasticsearch 中的一个文档。创建文档时可以自己指定ID或者让 Elasticsearch 自动生成</li>
+</ul>
+<h2 id="集群-cluster"><a href="#集群-cluster" class="headerlink" title="集群 cluster"></a>集群 cluster</h2><ul>
+<li>一个运行中的 Elasticsearch 实例称为一个<strong>节点</strong>，集群是由一个或者多个拥有相同 <strong>cluster.name</strong> 配置的节点组成，它们共同承担数据和负载的压力。当有节点加入集群中或者从集群中移除节点时，集群将会重新平均分布所有的数据。</li>
+<li><a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/cluster-health.html" target="_blank" rel="noopener">集群健康监控</a></li>
+</ul>
+<h2 id="分布式"><a href="#分布式" class="headerlink" title="分布式"></a>分布式</h2><ul>
+<li>elasticsearch 为分布式而生，而且它的设计隐藏了分布式本身的复杂性。Elasticsearch在分布式概念上做了很大程度上的透明化，Elasticsearch致力于隐藏分布式系统的复杂性。以下这些操作都是在底层自动完成的：<ul>
+<li>将你的文档分区到不同的容器或者分片中，它们可以存在于一个或多个节点中。</li>
+<li>将分片均匀的分配到各个节点，对索引和搜索做负载均衡。</li>
+<li>冗余每一个分片，防止硬件故障造成的数据丢失。</li>
+<li>将集群中任意一个节点上的请求路由到相应数据所在的节点。</li>
+<li>无论是增加节点，还是移除节点，分片都可以做到无缝的扩展和迁移。</li>
+</ul>
+</li>
+<li>横向扩展和纵向扩展<ul>
+<li>Elasticsearch用于构建高可用和可扩展的系统。扩展的方式可以是购买更好的服务器（纵向扩展（ vertical scale or scaling up ））或者购买更多的服务器（ 横向扩展（ horizontal scaleor scaling out ））</li>
+<li>Elasticsearch 虽然能从更强大的硬件中获得更好的性能，但是纵向扩展有它的局限性。真正的扩展应该是横向的，它通过增加节点来均摊负载和增加可靠性。</li>
+</ul>
+</li>
+</ul>
+<h2 id="搜索"><a href="#搜索" class="headerlink" title="搜索"></a>搜索</h2><ul>
+<li>Elasticsearch 文档中的<strong>每个字段都将被索引</strong>并且可以被查询 。不仅如此，在简单查询时，Elasticsearch 可以使用所有这些索引字段，以惊人的速度返回结果。这是你永远不会考虑用传统数据库去做的一些事情。</li>
+<li>它可以做到：<ul>
+<li>在类似于 gender 或者 age 这样的字段上使用结构化查询，join_date 这样的字段上使用排序，就像SQL的结构化查询一样。</li>
+<li><a href="./全文检索.md">全文检索</a>，找出所有匹配关键字的文档并按照相关性（relevance） 排序后返回结果。</li>
+</ul>
+</li>
+</ul>
+<h2 id="基于-http-协议"><a href="#基于-http-协议" class="headerlink" title="基于 http 协议"></a>基于 http 协议</h2><ul>
+<li><p>基于 HTTP 协议，以 JSON 为数据交互格式的 RESTful API，其他所有程序语言都可以使用 RESTful API，通过 9200 端口的与 Elasticsearch 进行通信，你可以使用你喜欢的 WEB 客户端，事实上，如你所见，你甚至可以通过 curl 命令与 Elasticsearch 通信。</p>
+</li>
+<li><p>Elasticsearch官方提供了多种程序语言的客户端——Groovy，Javascript， .NET，PHP，Perl，Python，以及 Ruby——还有很多由社区提供的客户端和插件，所有这些可以在文档中找到。</p>
+</li>
+<li><p>向Elasticsearch发出的请求的组成部分与其它普通的HTTP请求是一样的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">curl -X&lt;VERB&gt;&apos;&lt;PROTOCOL&gt;://&lt;HOST&gt;/&lt;PATH&gt;?&lt;QUERY_STRING&gt;&apos; -d&apos;&lt;BODY&gt;&apos;</span><br><span class="line">• VERB HTTP 方法：GET , POST , PUT , HEAD , DELETE</span><br><span class="line">• PROTOCOL http 或者 https 协议（只有在 Elasticsearch 前面有https代理的时候可用）</span><br><span class="line">• HOST Elasticsearch集群中的任何一个节点的主机名，如果是在本地的节点，那么就叫localhost</span><br><span class="line">• PORT Elasticsearch HTTP服务所在的端口，默认为9200</span><br><span class="line">• QUERY_STRING 一些可选的查询请求参数，例如 ?pretty 参数将使请求返回更加美观易读的JSON数据</span><br><span class="line">• BODY 一个 JSON 格式的请求主体（如果请求需要的话）</span><br><span class="line"></span><br><span class="line">## 例如：</span><br><span class="line">curl -XGET &apos;localhost:9200/_count?pretty&apos; -d &apos;</span><br><span class="line">&#123;</span><br><span class="line">    &quot;query&quot;: &#123;</span><br><span class="line">        &quot;match_all&quot;: &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;&apos;</span><br><span class="line"></span><br><span class="line">## 可简写成：</span><br><span class="line">GET /_count</span><br><span class="line">&#123;</span><br><span class="line">    &quot;query&quot;: &#123;</span><br><span class="line">        &quot;match_all&quot;: &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="准实时（-near-real-time-）"><a href="#准实时（-near-real-time-）" class="headerlink" title="准实时（ near real-time ）"></a>准实时（ near real-time ）</h2><ul>
+<li>elasticsearch 是基于 lucene 的，lucene 是可以做到实时的，就是创建索引之后，立即能查询到。</li>
+<li>但是这样，要么是牺牲索引的效率，每次都索引之后都刷新，要么就是牺牲查询的效率每次查询之前都进行刷新。</li>
+<li>无论哪一种，都会让你的性能下降10倍以上，所以只能采取一种折中的方案，每隔n秒自动刷新，这样你创建索引之后，最多在ns之内肯定能查到。</li>
+<li>这就是所谓的准实时(near real-time)查询。</li>
+</ul>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ul>
+<li><a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/index.html" target="_blank" rel="noopener">Elasticsearch: 权威指南</a></li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2018-05-11T08:56:25.261Z" itemprop="dateUpdated">2018-05-11 16:56:25</time>
+</span><br>
+
+
+        
+        微博：<a href="https://weibo.com/hanakawaii">@俊俊俊俊__</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://blog.shaib.cn">
+            <img src="/img/avatar.jpg" alt="ligohan">
+            ligohan
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Elasticsearch/">Elasticsearch</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/1.Elasticsearch基础知识/&title=《【Elasticsearch】1.Elasticsearch 基础知识》 — ShaiB&pic=http://blog.shaib.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/1.Elasticsearch基础知识/&title=《【Elasticsearch】1.Elasticsearch 基础知识》 — ShaiB&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/1.Elasticsearch基础知识/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《【Elasticsearch】1.Elasticsearch 基础知识》 — ShaiB&url=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/1.Elasticsearch基础知识/&via=http://blog.shaib.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/1.Elasticsearch基础知识/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/05/11/Elasticsearch-tutorial/2.Elasticsearch安装部署/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">【Elasticsearch】2.Elasticsearch 安装部署</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/05/11/Elasticsearch-tutorial/0.Elasticsearch学习大纲/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">【Elasticsearch】0.Elasticsearch 学习大纲</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'ligohan',
+            repo: 'ligohan.github.io',
+            oauth: {
+                client_id: 'fa0038813388307a4f56',
+                client_secret: 'fd095a020d30235d15599824df9785d150d6fcd0',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>ligohan &copy; 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/1.Elasticsearch基础知识/&title=《【Elasticsearch】1.Elasticsearch 基础知识》 — ShaiB&pic=http://blog.shaib.cn/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/1.Elasticsearch基础知识/&title=《【Elasticsearch】1.Elasticsearch 基础知识》 — ShaiB&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/1.Elasticsearch基础知识/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《【Elasticsearch】1.Elasticsearch 基础知识》 — ShaiB&url=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/1.Elasticsearch基础知识/&via=http://blog.shaib.cn" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://blog.shaib.cn/2018/05/11/Elasticsearch-tutorial/1.Elasticsearch基础知识/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACpklEQVR42u3aMW7kMAwF0Ln/pWebLRbIxvmfEpEpnqvA8Fh6KkyG5OsVX+9vrtfB9fUN/975usr5inh4eHi3eO/H67vFnjeRbzRZ/eRXeHh4eHu85w/382Lte2YBoH0GDw8P79N4z8jn+8Vn/eAI8PDw8D6Hl6fgSRFhRsLDw8P7BF6+3XaLSTKdh4fFWgseHh5e99uiWfUJf6/09/Dw8PCOu+p5M2zWGJu10Ird4uHh4S3w8g/urACRbDRP2dt94uHh4W3w8kS2bVC1mW2yVt0Gw8PDw1vgte3/dnRgVpbNjzspJePh4eFt8PLSwPmGZiNZbTsNDw8P73d5SRvsfFBgll4P+3h4eHh4a7w8JGyk6eeNMTw8PLw9Xr7dWcC4lawPQwUeHh7eAu+k2T9sSh0k6wn4P2vh4eHhLfA20tk2SJwErWvhAQ8PD++R136Ck4PIf5uHhLYs8vcOHh4e3gLvVmEiqhCXoWijQIyHh4d3zksebUcE8mdmeyhCFB4eHt4CbzYuMEvE26Gr5P3RUeLh4eEt8NpWU1JIbe+clJKL1BwPDw/vKi9Ppk/aXW2ZeDZ8UFRQ8PDw8ErerLmVs9tRgzpFft4zHh4e3gJvlvImQSJJeWeMdvgADw8Pb5vXzh3MPv2zQsYw2ODh4eGt8U5Kum1pdTayMHweDw8Pb5l3XpzNMW26PDw+PDw8vDXehYLpcZhpD+JCMQIPDw+v5L3LK//Qn3/6k9LDD+/Hw8PDW+Dl163FZgl6/p7hhYeHh1fy2mDQbnfWx28P9IcyLh4eHt4Crx1smuFn5YY2gOHh4eF9Gi8JACdhI299JXvAw8PD+wTe3QJEC66HYvHw8PDWeHkhIC/vnhzH+RAtHh4e3h6v/Sf/7sDBSdi4Vs7Aw8PDS3l/AFXkc6gfm+D6AAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = 'ShaiB';
+            clearTimeout(titleTime);
+        } else {
+            document.title = 'ShaiB';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
